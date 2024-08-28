@@ -7,7 +7,7 @@ const Sidebar = () => {
   const navigate = useNavigate()
 
   const logout = async () => {
-    await instance.patch(`/auth/logout`);
+    await instance.post(`/auth/signout`);
     navigate("/login");
   };
 
