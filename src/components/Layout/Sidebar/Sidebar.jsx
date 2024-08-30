@@ -1,14 +1,14 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CategoryIcon from "@mui/icons-material/Category";
 import { instance } from "../../../services/axiosInterceptor";
+import useAppStore from "../../../appStore";
 
 const Sidebar = () => {
-  const navigate = useNavigate()
-
+const {updateUserData}= useAppStore() 
   const logout = async () => {
     await instance.post(`/auth/signout`);
-    navigate("/login");
+    updateUserData({isUserLoggedIn:false})
   };
 
   return (
@@ -36,6 +36,16 @@ const Sidebar = () => {
             >
               <CategoryIcon />
               <span className="flex-1 ms-3 whitespace-nowrap">Auctions</span>
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="/news"
+              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
+            >
+              <CategoryIcon />
+              <span className="flex-1 ms-3 whitespace-nowrap">News</span>
             </Link>
           </li>
 

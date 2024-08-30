@@ -7,7 +7,8 @@ import { ClipLoader } from "react-spinners";
 
 const AddAuction = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [imageName, setimageName] = useState({});
+  const [watchImageName, setWatchImageName] = useState();
+  const [watchFileName, setWatchFileName] = useState()
 
   const {
     register,
@@ -24,20 +25,36 @@ const AddAuction = () => {
     if (isLoading) return;
     setIsLoading(true);
     const formData = new FormData();
-    const { image } = data;
-    if (image) {
-      formData.append("image", image[0]);
+    const { banner,downloads } = data;
+    if (banner) {
+      formData.append("banner", banner[0]);
     }
-    formData.append("review", data.review);
+    if (downloads) {
+      formData.append("downloads", downloads[0]);
+    }
+
     formData.append("title", data.title);
-    formData.append("stars", data.stars);
-    formData.append("name", data.name);
-    formData.append("email", data.email);
-    formData.append("fromAdmin", true);
+    formData.append("category", data.category);
+    formData.append("state", data.state);
+    formData.append("city", data.city);
+    formData.append("area", data.area);
+    formData.append("description", data.description);
+    formData.append("bankName", data.bankName);
+    formData.append("branch", data.branch);
+    formData.append("contact", data.contact);
+    formData.append("reservePrice", data.reservePrice);
+    formData.append("emd", data.emd);
+    formData.append("serviceProvider", data.serviceProvider);
+    formData.append("borrowerName", data.borrowerName);
+    formData.append("propertyType", data.propertyType);
+    formData.append("auctionType", data.auctionType);
+    formData.append("auctionStartTime", data.auctionStartTime);
+    formData.append("auctionEndTime", data.auctionEndTime);
+    formData.append("applicationSubmissionDate", data.applicationSubmissionDate);
 
     // api call here
     instance
-      .post(`/reviews`, formData)
+      .post(`/auction`, formData)
       .then((res) => {
         reset();
         setIsLoading(false);
@@ -47,7 +64,7 @@ const AddAuction = () => {
             color: "white",
           },
         });
-        window.location.href = "/reviews";
+        window.location.href = "/auction";
       })
       .catch((err) => {
         reset();
@@ -62,11 +79,17 @@ const AddAuction = () => {
       });
   };
 
-  const temp = watch("image");
+  const temp = watch("banner");
 
   useEffect(() => {
-    setimageName(temp);
+    setWatchImageName(temp);
   }, [temp]);
+
+  const temp2 =  watch("downloads")
+  
+  useEffect(() => {
+   setWatchFileName(temp2)
+  }, [temp2])
 
   return (
     <div className="p-10">
@@ -89,7 +112,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.title && (
                 <span className="text-red-500">Review Title is required</span>
               )}
             </div>
@@ -101,7 +124,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.category && (
                 <span className="text-red-500">Category is required</span>
               )}
             </div>
@@ -113,7 +136,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.state && (
                 <span className="text-red-500">state is required</span>
               )}
             </div>
@@ -125,7 +148,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.city && (
                 <span className="text-red-500">city is required</span>
               )}
             </div>
@@ -137,7 +160,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.area && (
                 <span className="text-red-500">Area is required</span>
               )}
             </div>
@@ -149,7 +172,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.description && (
                 <span className="text-red-500">description is required</span>
               )}
             </div>
@@ -161,7 +184,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.bankName && (
                 <span className="text-red-500">Bank Name is required</span>
               )}
             </div>
@@ -173,7 +196,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.branch && (
                 <span className="text-red-500">branch is required</span>
               )}
             </div>
@@ -182,10 +205,10 @@ const AddAuction = () => {
               <label className="font-medium">Contact</label>
               <input
                 {...register("contact", { required: "contact is required" })}
-                type="text"
+                type="number"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.contact && (
                 <span className="text-red-500">contact is required</span>
               )}
             </div>
@@ -194,10 +217,10 @@ const AddAuction = () => {
               <label className="font-medium">Reserve Price</label>
               <input
                 {...register("reservePrice", { required: "Reserve Price is required" })}
-                type="text"
+                type="number"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.reservePrice && (
                 <span className="text-red-500">Reserve Price is required</span>
               )}
             </div>
@@ -206,10 +229,10 @@ const AddAuction = () => {
               <label className="font-medium">emd</label>
               <input
                 {...register("emd", { required: "emd is required" })}
-                type="text"
+                type="number"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.emd && (
                 <span className="text-red-500">emd is required</span>
               )}
             </div>
@@ -221,7 +244,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.serviceProvider && (
                 <span className="text-red-500">Service Provider` is required</span>
               )}
             </div>
@@ -233,7 +256,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.borrowerName && (
                 <span className="text-red-500">Borrower Name is required</span>
               )}
             </div>
@@ -245,7 +268,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.propertyType && (
                 <span className="text-red-500">Property Type is required</span>
               )}
             </div>
@@ -257,7 +280,7 @@ const AddAuction = () => {
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.auctionType && (
                 <span className="text-red-500">Auction Type is required</span>
               )}
             </div>
@@ -266,10 +289,10 @@ const AddAuction = () => {
               <label className="font-medium">Auction Start Time</label>
               <input
                 {...register("auctionStartTime", { required: "Auction Start Time is required" })}
-                type="text"
+                type="time"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.auctionStartTime && (
                 <span className="text-red-500">Auction Start Time is required</span>
               )}
             </div>
@@ -277,11 +300,11 @@ const AddAuction = () => {
             <div>
               <label className="font-medium">Auction End Time</label>
               <input
-                {...register("auctionEndTime", { required: "Auction End Time is required" })}
-                type="text"
+                {...register("auctionEndTime", { required: true })}
+                type="time"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.auctionEndTime && (
                 <span className="text-red-500">Auction End Time is required</span>
               )}
             </div>
@@ -289,26 +312,104 @@ const AddAuction = () => {
             <div>
               <label className="font-medium">Application Submission Date</label>
               <input
-                {...register("applicationSubmissionDate", { required: "Application Submission Date is required" })}
-                type="text"
+                {...register("applicationSubmissionDate", { required: true })}
+                type="date"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.topic && (
+              {errors.applicationSubmissionDate && (
                 <span className="text-red-500">Application Submission Date is required</span>
               )}
             </div>
 
-            <div>
-              <label className="font-medium">Files</label>
-              <input
-                {...register("state", { required: "state is required" })}
-                type="text"
-                className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
-              />
-              {errors.topic && (
-                <span className="text-red-500">state is required</span>
-              )}
-            </div>
+            <div className="relative w-full space-y-1">
+                <label htmlFor="input" className="font-medium ">
+                 Upload File
+                </label>
+                <div className="items-center justify-center  mx-auto">
+                  <label
+                    className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+                    id="drop"
+                  >
+                    <span className="flex items-center space-x-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-6 h-6 text-gray-600"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
+                      </svg>
+                      <span className="font-medium text-gray-600">
+                      {Array.isArray(Array.from(watchFileName || {})) && Array.from(watchFileName || {}).length > 0 ? watchFileName[0]?.name : 'Drop file to Attach, or '}
+                        <span className="text-blue-600 underline ml-[4px]">
+                          browse
+                        </span>
+                      </span>
+                    </span>
+                    <input
+                      type="file"
+                      {...register('downloads', { required: true })}
+                      className="hidden"
+                      accept=".pdf, .doc, .docx"
+                      id="input"
+                    />
+                  </label>
+                </div>
+                {errors.downloads && (
+                  <span className="text-red-500">File is required</span>
+                )}
+              </div>
+            <div className="relative w-full space-y-1">
+                <label htmlFor="input" className="font-medium ">
+                 Upload Banner
+                </label>
+                <div className="items-center justify-center  mx-auto">
+                  <label
+                    className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+                    id="drop"
+                  >
+                    <span className="flex items-center space-x-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-6 h-6 text-gray-600"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
+                      </svg>
+                      <span className="font-medium text-gray-600">
+                      {Array.isArray(Array.from(watchImageName || {})) && Array.from(watchImageName || {}).length > 0 ? watchImageName[0]?.name : 'Drop Banner to Attach, or '}
+                        <span className="text-blue-600 underline ml-[4px]">
+                          browse
+                        </span>
+                      </span>
+                    </span>
+                    <input
+                      type="file"
+                      {...register('banner', { required:true })}
+                      className="hidden"
+                      accept="image/png,image/jpeg,image/webp"
+                      id="input"
+                    />
+                  </label>
+                </div>
+                
+                {errors.banner && (
+                  <span className="text-red-500">Banner is required</span>
+                )}
+              </div>
 
           </div>
 
@@ -325,89 +426,3 @@ const AddAuction = () => {
 
 export default AddAuction;
 
-// const propertySchema = new mongoose.Schema({
-//   category: {
-//     type: String,
-//     required: [true, "Category is required"],
-//   },
-//   state: {
-//     type: String,
-//     required: [true, "State is required"],
-//   },
-//   city: {
-//     type: String,
-//     required: [true, "City is required"],
-//   },
-//   area: {
-//     type: String,
-//     required: [true, "Area/Town is required"],
-//   },
-//   description: {
-//     type: String,
-//     required: [true, "Description is required"],
-//   },
-
-//   bankName: {
-//     type: String,
-//     required: [true, "Bank Name is required"],
-//   },
-//   branch: {
-//     type: String,
-//     required: [true, "Branch Name is required"],
-//   },
-//   contact: {
-//     type: String,
-//     required: [true, "Mobile Number is required"],
-//   },
-//   reservePrice: {
-//     type: String,
-//     required: [true, "Reserve price is required"],
-//   },
-//   emd: {
-//     type: String,
-//     required: [true, "Reserve price is required"],
-//   },
-//   serviceProvider: {
-//     type: String,
-//     required: [true, "Service Provider is required"],
-//   },
-
-//   borrowerName: {
-//     type: String,
-//     required: [true, "Borrower Name is required"],
-//   },
-//   propertyType: {
-//     type: String,
-//     required: [true, "Borrower Name is required"],
-//   },
-//   auctionType: {
-//     type: String,
-//     required: [true, "Borrower Name is required"],
-//   },
-//   auctionStartTime: {
-//     type: String,
-//     required: [true, "auctionStartTime is required"],
-//   },
-//   auctionEndTime: {
-//     type: String,
-//     required: [true, "auctionEndTime is required"],
-//   },
-//   applicationSubmissionDate: {
-//     type: String,
-//     required: [true, "applicationSubmissionDate is required"],
-//   },
-//   downloads: {
-//     type: [
-//       {
-//         name: {
-//           type: String,
-//           required: [true, "file name is required"],
-//         },
-//         file: {
-//           type: [],
-//           required: [true, "file is required"],
-//         },
-//       },
-//     ],
-//   },
-// });

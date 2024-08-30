@@ -10,21 +10,24 @@ import { Toaster } from "sonner";
 
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Auth/Login/Login";
-
+import useAppStore from "./appStore";
 import Layout from "./components/Layout/Layout";
 // import ComingSoon from "./pages/NotFound/ComingSoon";
 import NotFound from "./pages/NotFound/NotFound";
 import AddAuction from "./pages/Auctions/AddAuction";
 import UpdateAuction from "./pages/Auctions/UpdateAuction";
 import Auctions from "./pages/Auctions/Auctions";
+import CreateNews from "./pages/News/CreateNews";
 
-const isUserLoggedIn = localStorage.getItem("isusrlgd");
+
 
 const App = () => {
+  const {userData}= useAppStore()
+  console.log(userData?.isUserLoggedIn)
   const router = createBrowserRouter([
     {
       path: "/",
-      element: isUserLoggedIn ? <Layout /> : <Navigate to="/login" />,
+      element: userData?.isUserLoggedIn ? <Layout /> : <Login/>,
 
       children: [
         {
@@ -48,13 +51,18 @@ const App = () => {
           path: "/auctions/update/:id",
           element: <UpdateAuction />,
         },
+        {
+          path: "/news/add",
+          element: <CreateNews />,
+        },
+        {
+          path: "/news",
+          element: <CreateNews />,
+        },
 
       ],
     },
-    {
-      path: "/login",
-      element: <Login />,
-    },
+ 
 
     {
       path: "*",

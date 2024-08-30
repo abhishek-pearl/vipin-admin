@@ -13,7 +13,8 @@ const Auction = () => {
     instance
       .get(`/auction`)
       .then((res) => {
-        setAuctionsData(res?.data?.auctionsData);
+        setAuctionsData(res?.data?.data);
+        console.log(res)
         setIsLoading(false);
       })
       .catch((err) => {
@@ -82,7 +83,7 @@ const Auction = () => {
                   <th scope="col" className="px-6 py-3">
                     Title
                   </th>
-                  <th scope="col" className="col-span-2 px-6 py-3">
+                  <th scope="col" colSpan={2} className="text-center px-6 py-3">
                     Actions
                   </th>
                 </tr>
