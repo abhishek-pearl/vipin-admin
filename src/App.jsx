@@ -18,6 +18,7 @@ import AddAuction from "./pages/Auctions/AddAuction";
 import UpdateAuction from "./pages/Auctions/UpdateAuction";
 import Auctions from "./pages/Auctions/Auctions";
 import CreateNews from "./pages/News/CreateNews";
+import News from "./pages/News/News";
 
 
 
@@ -56,8 +57,12 @@ const App = () => {
           element: <CreateNews />,
         },
         {
-          path: "/news",
+          path: "/news/update",
           element: <CreateNews />,
+        },
+        {
+          path: "/news",
+          element: <News />,
         },
 
       ],

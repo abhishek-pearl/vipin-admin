@@ -1,12 +1,11 @@
-import React, {useState } from "react";
-import { useForm} from "react-hook-form";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { instance } from "../../services/axiosInterceptor";
 import { Toaster, toast } from "sonner";
 import { ClipLoader } from "react-spinners";
 
 const CreateNews = () => {
   const [isLoading, setIsLoading] = useState(false);
-
 
   const {
     register,
@@ -25,7 +24,7 @@ const CreateNews = () => {
 
     // api call here
     instance
-      .post(`/reviews`, formData)
+      .post(`/news`, data)
       .then((res) => {
         reset();
         setIsLoading(false);
@@ -35,7 +34,7 @@ const CreateNews = () => {
             color: "white",
           },
         });
-        window.location.href = "/reviews";
+        window.location.href = "/news";
       })
       .catch((err) => {
         reset();
@@ -49,8 +48,6 @@ const CreateNews = () => {
         });
       });
   };
-
-
 
   return (
     <div className="p-10">
@@ -91,14 +88,12 @@ const CreateNews = () => {
             <div>
               <label className="font-medium">Description</label>
               <textarea
-                {...register("shortDescription")}
+                {...register("description")}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
             </div>
-       
-
-</div>
+          </div>
 
           <div className="flex justify-center pt-2">
             <button className="w-1/2 text-white rounded-md p-2 bg-blue-500 hover:bg-blue-700 transition duration-300">
@@ -112,4 +107,3 @@ const CreateNews = () => {
 };
 
 export default CreateNews;
-

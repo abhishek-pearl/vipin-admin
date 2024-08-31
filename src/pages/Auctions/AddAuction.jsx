@@ -8,7 +8,7 @@ import { ClipLoader } from "react-spinners";
 const AddAuction = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [watchImageName, setWatchImageName] = useState();
-  const [watchFileName, setWatchFileName] = useState()
+  const [watchFileName, setWatchFileName] = useState();
 
   const {
     register,
@@ -25,7 +25,7 @@ const AddAuction = () => {
     if (isLoading) return;
     setIsLoading(true);
     const formData = new FormData();
-    const { banner,downloads } = data;
+    const { banner, downloads } = data;
     if (banner) {
       formData.append("banner", banner[0]);
     }
@@ -48,9 +48,16 @@ const AddAuction = () => {
     formData.append("borrowerName", data.borrowerName);
     formData.append("propertyType", data.propertyType);
     formData.append("auctionType", data.auctionType);
+    formData.append("auctionStartDate", data.auctionStartDate);
+
     formData.append("auctionStartTime", data.auctionStartTime);
+    formData.append("auctionEndDate", data.auctionEndDate);
+
     formData.append("auctionEndTime", data.auctionEndTime);
-    formData.append("applicationSubmissionDate", data.applicationSubmissionDate);
+    formData.append(
+      "applicationSubmissionDate",
+      data.applicationSubmissionDate
+    );
 
     // api call here
     instance
@@ -64,7 +71,7 @@ const AddAuction = () => {
             color: "white",
           },
         });
-        window.location.href = "/auction";
+        window.location.href = "/auctions";
       })
       .catch((err) => {
         reset();
@@ -85,11 +92,11 @@ const AddAuction = () => {
     setWatchImageName(temp);
   }, [temp]);
 
-  const temp2 =  watch("downloads")
-  
+  const temp2 = watch("downloads");
+
   useEffect(() => {
-   setWatchFileName(temp2)
-  }, [temp2])
+    setWatchFileName(temp2);
+  }, [temp2]);
 
   return (
     <div className="p-10">
@@ -168,7 +175,9 @@ const AddAuction = () => {
             <div>
               <label className="font-medium">Description</label>
               <input
-                {...register("description", { required: "description is required" })}
+                {...register("description", {
+                  required: "description is required",
+                })}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
@@ -216,7 +225,9 @@ const AddAuction = () => {
             <div>
               <label className="font-medium">Reserve Price</label>
               <input
-                {...register("reservePrice", { required: "Reserve Price is required" })}
+                {...register("reservePrice", {
+                  required: "Reserve Price is required",
+                })}
                 type="number"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
@@ -240,19 +251,25 @@ const AddAuction = () => {
             <div>
               <label className="font-medium">Service Provider`</label>
               <input
-                {...register("serviceProvider", { required: "Service Provider is required" })}
+                {...register("serviceProvider", {
+                  required: "Service Provider is required",
+                })}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
               {errors.serviceProvider && (
-                <span className="text-red-500">Service Provider` is required</span>
+                <span className="text-red-500">
+                  Service Provider` is required
+                </span>
               )}
             </div>
 
             <div>
               <label className="font-medium">Borrower Name</label>
               <input
-                {...register("borrowerName", { required: "Borrower Name is required" })}
+                {...register("borrowerName", {
+                  required: "Borrower Name is required",
+                })}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
@@ -264,7 +281,9 @@ const AddAuction = () => {
             <div>
               <label className="font-medium">Property Type</label>
               <input
-                {...register("propertyType", { required: "Property Type is required" })}
+                {...register("propertyType", {
+                  required: "Property Type is required",
+                })}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
@@ -276,7 +295,9 @@ const AddAuction = () => {
             <div>
               <label className="font-medium">Auction Type</label>
               <input
-                {...register("auctionType", { required: "Auction Type is required" })}
+                {...register("auctionType", {
+                  required: "Auction Type is required",
+                })}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
@@ -286,14 +307,46 @@ const AddAuction = () => {
             </div>
 
             <div>
+              <label className="font-medium">Auction Start Date</label>
+              <input
+                {...register("auctionStartDate", { required: true })}
+                type="date"
+                className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+              />
+              {errors.auctionStartDate && (
+                <span className="text-red-500">
+                  Auction Start Date is required
+                </span>
+              )}
+            </div>
+
+            <div>
               <label className="font-medium">Auction Start Time</label>
               <input
-                {...register("auctionStartTime", { required: "Auction Start Time is required" })}
+                {...register("auctionStartTime", {
+                  required: "Auction Start Time is required",
+                })}
                 type="time"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
               {errors.auctionStartTime && (
-                <span className="text-red-500">Auction Start Time is required</span>
+                <span className="text-red-500">
+                  Auction Start Time is required
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label className="font-medium">Auction End Date</label>
+              <input
+                {...register("auctionEndDate", { required: true })}
+                type="date"
+                className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+              />
+              {errors.auctionEndDate && (
+                <span className="text-red-500">
+                  Auction End Date is required
+                </span>
               )}
             </div>
 
@@ -305,7 +358,9 @@ const AddAuction = () => {
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
               {errors.auctionEndTime && (
-                <span className="text-red-500">Auction End Time is required</span>
+                <span className="text-red-500">
+                  Auction End Time is required
+                </span>
               )}
             </div>
 
@@ -317,100 +372,107 @@ const AddAuction = () => {
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
               {errors.applicationSubmissionDate && (
-                <span className="text-red-500">Application Submission Date is required</span>
+                <span className="text-red-500">
+                  Application Submission Date is required
+                </span>
               )}
             </div>
 
             <div className="relative w-full space-y-1">
-                <label htmlFor="input" className="font-medium ">
-                 Upload File
-                </label>
-                <div className="items-center justify-center  mx-auto">
-                  <label
-                    className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
-                    id="drop"
-                  >
-                    <span className="flex items-center space-x-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-6 h-6 text-gray-600"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        />
-                      </svg>
-                      <span className="font-medium text-gray-600">
-                      {Array.isArray(Array.from(watchFileName || {})) && Array.from(watchFileName || {}).length > 0 ? watchFileName[0]?.name : 'Drop file to Attach, or '}
-                        <span className="text-blue-600 underline ml-[4px]">
-                          browse
-                        </span>
+              <label htmlFor="input" className="font-medium ">
+                Upload File
+              </label>
+              <div className="items-center justify-center  mx-auto">
+                <label
+                  className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+                  id="drop"
+                >
+                  <span className="flex items-center space-x-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-6 h-6 text-gray-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                      />
+                    </svg>
+                    <span className="font-medium text-gray-600">
+                      {Array.isArray(Array.from(watchFileName || {})) &&
+                      Array.from(watchFileName || {}).length > 0
+                        ? watchFileName[0]?.name
+                        : "Drop file to Attach, or "}
+                      <span className="text-blue-600 underline ml-[4px]">
+                        browse
                       </span>
                     </span>
-                    <input
-                      type="file"
-                      {...register('downloads', { required: true })}
-                      className="hidden"
-                      accept=".pdf, .doc, .docx"
-                      id="input"
-                    />
-                  </label>
-                </div>
-                {errors.downloads && (
-                  <span className="text-red-500">File is required</span>
-                )}
+                  </span>
+                  <input
+                    type="file"
+                    {...register("downloads", { required: true })}
+                    className="hidden"
+                    accept=".pdf, .doc, .docx"
+                    id="input"
+                  />
+                </label>
               </div>
+              {errors.downloads && (
+                <span className="text-red-500">File is required</span>
+              )}
+            </div>
             <div className="relative w-full space-y-1">
-                <label htmlFor="input" className="font-medium ">
-                 Upload Banner
-                </label>
-                <div className="items-center justify-center  mx-auto">
-                  <label
-                    className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
-                    id="drop"
-                  >
-                    <span className="flex items-center space-x-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-6 h-6 text-gray-600"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        />
-                      </svg>
-                      <span className="font-medium text-gray-600">
-                      {Array.isArray(Array.from(watchImageName || {})) && Array.from(watchImageName || {}).length > 0 ? watchImageName[0]?.name : 'Drop Banner to Attach, or '}
-                        <span className="text-blue-600 underline ml-[4px]">
-                          browse
-                        </span>
+              <label htmlFor="input" className="font-medium ">
+                Upload Banner
+              </label>
+              <div className="items-center justify-center  mx-auto">
+                <label
+                  className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+                  id="drop"
+                >
+                  <span className="flex items-center space-x-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-6 h-6 text-gray-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                      />
+                    </svg>
+                    <span className="font-medium text-gray-600">
+                      {Array.isArray(Array.from(watchImageName || {})) &&
+                      Array.from(watchImageName || {}).length > 0
+                        ? watchImageName[0]?.name
+                        : "Drop Banner to Attach, or "}
+                      <span className="text-blue-600 underline ml-[4px]">
+                        browse
                       </span>
                     </span>
-                    <input
-                      type="file"
-                      {...register('banner', { required:true })}
-                      className="hidden"
-                      accept="image/png,image/jpeg,image/webp"
-                      id="input"
-                    />
-                  </label>
-                </div>
-                
-                {errors.banner && (
-                  <span className="text-red-500">Banner is required</span>
-                )}
+                  </span>
+                  <input
+                    type="file"
+                    {...register("banner", { required: true })}
+                    className="hidden"
+                    accept="image/png,image/jpeg,image/webp"
+                    id="input"
+                  />
+                </label>
               </div>
 
+              {errors.banner && (
+                <span className="text-red-500">Banner is required</span>
+              )}
+            </div>
           </div>
 
           <div className="flex justify-center pt-2">
@@ -425,4 +487,3 @@ const AddAuction = () => {
 };
 
 export default AddAuction;
-
