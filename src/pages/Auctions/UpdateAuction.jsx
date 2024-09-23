@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import Select from "react-select";
 import { useParams } from "react-router-dom";
 import { instance } from "../../services/axiosInterceptor";
 import { Toaster, toast } from "sonner";
@@ -9,6 +10,13 @@ const UpdateAuction = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [watchImageName, setWatchImageName] = useState();
   const [watchFileName, setWatchFileName] = useState();
+  const [defaultCategory, setDefaultCategory] = useState({
+    value: "",
+    label: "",
+  });
+  const [existingBanner, setExistingBanner] = useState(null);
+  const [existingFile, setExistingFile] = useState(null);
+
   const { id } = useParams();
 
   const {
@@ -35,29 +43,35 @@ const UpdateAuction = () => {
     instance
       .get(`/auction/${id}`)
       .then((res) => {
-        console.log(res);
+        const result = res?.data?.result;
+
+        setDefaultCategory({
+          value: result?.category,
+          label: result?.category,
+        });
+        setExistingBanner(result?.banner[0]?.secure_url);
+        setExistingFile(result?.downloads[0]?.secure_url);
         reset({
-          title: res?.data?.result?.title,
-          category: res?.data?.result?.category,
-          state: res?.data?.result?.state,
-          city: res?.data?.result?.city,
-          area: res?.data?.result?.area,
-          description: res?.data?.result?.description,
-          bankName: res?.data?.result?.bankName,
-          branch: res?.data?.result?.branch,
-          contact: res?.data?.result?.contact,
-          reservePrice: res?.data?.result?.reservePrice,
-          emd: res?.data?.result?.emd,
-          serviceProvider: res?.data?.result?.serviceProvider,
-          borrowerName: res?.data?.result?.borrowerName,
-          propertyType: res?.data?.result?.propertyType,
-          auctionType: res?.data?.result?.auctionType,
-          auctionStartDate: processJSDate(res?.data?.result?.auctionStartDate),
-          auctionStartTime: res?.data?.result?.auctionStartTime,
-          auctionEndDate: processJSDate(res?.data?.result?.auctionEndDate),
-          auctionEndTime: res?.data?.result?.auctionEndTime,
-          applicationSubmissionDate:
-            res?.data?.result?.applicationSubmissionDate,
+          title: result?.title,
+          category: { value: result?.category, label: result?.category },
+          state: result?.state,
+          city: result?.city,
+          area: result?.area,
+          description: result?.description,
+          bankName: result?.bankName,
+          branch: result?.branch,
+          contact: result?.contact,
+          reservePrice: result?.reservePrice,
+          emd: result?.emd,
+          serviceProvider: result?.serviceProvider,
+          borrowerName: result?.borrowerName,
+          propertyType: result?.propertyType,
+          auctionType: result?.auctionType,
+          auctionStartDate: processJSDate(result?.auctionStartDate),
+          auctionStartTime: result?.auctionStartTime,
+          auctionEndDate: processJSDate(result?.auctionEndDate),
+          auctionEndTime: result?.auctionEndTime,
+          applicationSubmissionDate: result?.applicationSubmissionDate,
         });
 
         setIsLoading(false);
@@ -79,6 +93,16 @@ const UpdateAuction = () => {
     getAuction();
   }, []);
 
+  const categories = [
+    { value: "Commercial", label: "Commercial" },
+    { value: "Gold Auctions", label: "Gold Auctions" },
+    { value: "Industrials", label: "Industrials" },
+    { value: "Others", label: "Others" },
+    { value: "Residential", label: "Residential" },
+    { value: "Scrap, Plant & Machinery", label: "Scrap, Plant & Machinery" },
+    { value: "Vehicle Auctions", label: "Vehicle Auctions" },
+  ];
+
   const onSubmit = (data) => {
     if (isLoading) return;
     setIsLoading(true);
@@ -93,7 +117,7 @@ const UpdateAuction = () => {
     }
 
     formData.append("title", data.title);
-    formData.append("category", data.category);
+    formData.append("category", data.category.value);
     formData.append("state", data.state);
     formData.append("city", data.city);
     formData.append("area", data.area);
@@ -182,12 +206,15 @@ const UpdateAuction = () => {
               )}
             </div>
 
-            <div>
-              <label className="font-medium">Category</label>
-              <input
-                {...register("category", { required: "category is required" })}
-                type="text"
-                className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+            <div className="flex flex-col justify-center">
+              <label className="font-medium mb-2">Category</label>
+              <Controller
+                name="category"
+                control={control}
+                defaultValue={defaultCategory}
+                render={({ field }) => (
+                  <Select {...field} options={categories} required />
+                )}
               />
               {errors.category && (
                 <span className="text-red-500">Category is required</span>
@@ -435,10 +462,22 @@ const UpdateAuction = () => {
                 </span>
               )}
             </div>
-
             <div className="relative w-full space-y-1">
               <label htmlFor="input" className="font-medium ">
-                Upload File
+                Old File
+              </label>
+              <div className="items-center justify-center  mx-auto flex flex-col">
+                <a
+                  href={existingFile}
+                  className="text-blue-500 hover:text-blue-700 hover:underline"
+                >
+                  Click here to preview old file.
+                </a>
+              </div>
+            </div>
+            <div className="relative w-full space-y-1">
+              <label htmlFor="input" className="font-medium ">
+                Select New File
               </label>
               <div className="items-center justify-center  mx-auto">
                 <label
@@ -472,7 +511,7 @@ const UpdateAuction = () => {
                   </span>
                   <input
                     type="file"
-                    {...register("downloads", { required: true })}
+                    {...register("downloads", { required: false })}
                     className="hidden"
                     accept=".pdf, .doc, .docx"
                     id="input"
@@ -485,7 +524,15 @@ const UpdateAuction = () => {
             </div>
             <div className="relative w-full space-y-1">
               <label htmlFor="input" className="font-medium ">
-                Upload Banner
+                Old Banner
+              </label>
+              <div className="items-center justify-center  mx-auto">
+                <img src={existingBanner} alt="" className="object-contain" />
+              </div>
+            </div>
+            <div className="relative w-full space-y-1">
+              <label htmlFor="input" className="font-medium ">
+                Select New Banner
               </label>
               <div className="items-center justify-center  mx-auto">
                 <label
@@ -519,7 +566,7 @@ const UpdateAuction = () => {
                   </span>
                   <input
                     type="file"
-                    {...register("banner", { required: true })}
+                    {...register("banner", { required: false })}
                     className="hidden"
                     accept="image/png,image/jpeg,image/webp"
                     id="input"

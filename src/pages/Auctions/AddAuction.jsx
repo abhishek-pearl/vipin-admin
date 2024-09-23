@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 import { instance } from "../../services/axiosInterceptor";
 import { Toaster, toast } from "sonner";
 import { ClipLoader } from "react-spinners";
@@ -21,6 +21,16 @@ const AddAuction = () => {
     defaultValues: {},
   });
 
+  const categories = [
+    { value: "Commercial", label: "Commercial" },
+    { value: "Gold Auctions", label: "Gold Auctions" },
+    { value: "Industrials", label: "Industrials" },
+    { value: "Others", label: "Others" },
+    { value: "Residential", label: "Residential" },
+    { value: "Scrap, Plant & Machinery", label: "Scrap, Plant & Machinery" },
+    { value: "Vehicle Auctions", label: "Vehicle Auctions" },
+  ];
+
   const onSubmit = (data) => {
     if (isLoading) return;
     setIsLoading(true);
@@ -34,7 +44,7 @@ const AddAuction = () => {
     }
 
     formData.append("title", data.title);
-    formData.append("category", data.category);
+    formData.append("category", data.category.value);
     formData.append("state", data.state);
     formData.append("city", data.city);
     formData.append("area", data.area);
@@ -124,12 +134,18 @@ const AddAuction = () => {
               )}
             </div>
 
-            <div>
-              <label className="font-medium">Category</label>
-              <input
-                {...register("category", { required: "category is required" })}
-                type="text"
-                className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+            <div className="flex flex-col justify-center">
+              <label className="font-medium mb-2">Category</label>
+              <Controller
+                name="category"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={categories}
+                    required
+                  />
+                )}
               />
               {errors.category && (
                 <span className="text-red-500">Category is required</span>
@@ -380,7 +396,7 @@ const AddAuction = () => {
 
             <div className="relative w-full space-y-1">
               <label htmlFor="input" className="font-medium ">
-                Upload File
+              Select File
               </label>
               <div className="items-center justify-center  mx-auto">
                 <label
@@ -427,7 +443,7 @@ const AddAuction = () => {
             </div>
             <div className="relative w-full space-y-1">
               <label htmlFor="input" className="font-medium ">
-                Upload Banner
+              Select Banner
               </label>
               <div className="items-center justify-center  mx-auto">
                 <label
