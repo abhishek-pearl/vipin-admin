@@ -5,10 +5,10 @@ import { instance } from "../../../services/axiosInterceptor";
 import useAppStore from "../../../appStore";
 
 const Sidebar = () => {
-const {updateUserData}= useAppStore() 
+  const { updateUserData } = useAppStore()
   const logout = async () => {
     await instance.post(`/auth/signout`);
-    updateUserData({isUserLoggedIn:false})
+    updateUserData({ isUserLoggedIn: false })
   };
 
   return (
@@ -48,8 +48,26 @@ const {updateUserData}= useAppStore()
               <span className="flex-1 ms-3 whitespace-nowrap">News</span>
             </Link>
           </li>
+          <li>
+            <Link
+              to="/services"
+              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
+            >
+              <CategoryIcon />
+              <span className="flex-1 ms-3 whitespace-nowrap">Services</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/testimonials"
+              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
+            >
+              <CategoryIcon />
+              <span className="flex-1 ms-3 whitespace-nowrap">Testimonials</span>
+            </Link>
+          </li>
 
-                   
+
 
           <li>
             <div

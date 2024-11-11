@@ -19,16 +19,20 @@ import UpdateAuction from "./pages/Auctions/UpdateAuction";
 import Auctions from "./pages/Auctions/Auctions";
 import CreateNews from "./pages/News/CreateNews";
 import News from "./pages/News/News";
+import Testimonials from "./pages/Testimonials/Testimonials";
+import AddTestimonial from "./pages/Testimonials/AddTestimonial";
+import AddServices from "./pages/Services/AddServices";
+import Services from "./pages/Services/Services";
 
 
 
 const App = () => {
-  const {userData}= useAppStore()
+  const { userData } = useAppStore()
   console.log(userData?.isUserLoggedIn)
   const router = createBrowserRouter([
     {
       path: "/",
-      element: userData?.isUserLoggedIn ? <Layout /> : <Login/>,
+      element: userData?.isUserLoggedIn ? <Layout /> : <Login />,
 
       children: [
         {
@@ -64,10 +68,27 @@ const App = () => {
           path: "/news",
           element: <News />,
         },
+        {
+          path: "/services",
+          element: <Services />,
+        },
+        {
+          path: "/createServices",
+          element: <AddServices />,
+        },
+        {
+          path: "/testimonials",
+          element: <Testimonials />,
+        },
+        {
+          path: "/createTestimonial",
+          element: <AddTestimonial />,
+        },
+
 
       ],
     },
- 
+
 
     {
       path: "*",
