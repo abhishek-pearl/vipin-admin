@@ -48,7 +48,7 @@ export default function AddServices() {
                 ]
             },
             bottomSection: {
-                features: [{ icon: '', description: '', heading: '' }],
+                features: [{description: '', heading: '' }],
                 doAndDont: [{}],
                 faq: [{
                     que: '',
@@ -104,8 +104,10 @@ export default function AddServices() {
         const formData = new FormData()
 
         formData.append("midSection", JSON.stringify(data.midSection))
-        formData.append("bottomSection", JSON.stringify(data.bottomSection))
 
+
+        
+        console.log(data.bottomSection)
         // media file
         formData.append("topSectionImage", data.topSection?.banner[0])
         formData.append("serviceIcon", data?.topSection?.serviceIcon[0])
@@ -116,14 +118,21 @@ export default function AddServices() {
         data?.bottomSection?.features?.map(item => {
             formData.append("bottomSectionFeaturesImages", item?.icon[0])
         })
-        data?.bottomSection?.features?.forEach(element => {
+        data?.bottomSection?.features?.forEach((element) => {
             delete element.icon
         });
+        formData.append("bottomSection", JSON.stringify(data.bottomSection))
+        formData.append("topSection", JSON.stringify(data.topSection))
+
         console.log(data.bottomSection, "data?.bottomSectin")
 
 
         setIsSubmitting(true)
         try {
+
+            formData.forEach(element => {
+                console.log(element,"formData");
+            });
             const data = await axios.post(`${import.meta.env.VITE_API_URL}/services`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
