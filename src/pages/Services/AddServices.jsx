@@ -458,12 +458,12 @@ export default function AddServices() {
 
                                             {...register(`bottomSection.doAndDont.${index}.do`, { required: "Do is required" })}
                                             className="flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            placeholder="Question"
+                                            placeholder="Dos"
                                         />
                                         <input
                                             {...register(`bottomSection.doAndDont.${index}.dont`, { required: "Dont is required" })}
                                             className="flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            placeholder="Answer"
+                                            placeholder="Donts"
                                         />
                                     </div>
                                     <button
