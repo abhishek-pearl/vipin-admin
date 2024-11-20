@@ -1,6 +1,9 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Services() {
+    const [services, setServices] = useState([])
     const testimonials = [
         {
             id: 1,
@@ -46,6 +49,22 @@ export default function Services() {
         console.log(`Delete testimonial with id: ${id}`);
     };
 
+    const getServices = async () => {
+        try {
+            const data = await axios.get(
+                `${import.meta.env.VITE_API_URL}/services`,
+            );
+            setServices(data?.data?.data)
+            console.log(data?.data?.data, "data")
+        } catch (error) {
+
+        }
+    }
+    useEffect(() => {
+        getServices()
+    }, [])
+
+
     return (
         <div className="container mx-auto p-6 mt-10 space-y-4">
             <div className="flex justify-between">
@@ -60,44 +79,44 @@ export default function Services() {
                         <tr>
                             <th className="py-3 px-4 text-left">Image</th>
                             <th className="py-3 px-4 text-left">Name</th>
-                            <th className="py-3 px-4 text-left">Role</th>
-                            <th className="py-3 px-4 text-left">Testimonial</th>
-                            <th className="py-3 px-4 text-left">Rating</th>
+                            <th className="py-3 px-4 text-left">Description</th>
+
                             <th className="py-3 px-4 text-left">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {testimonials.map((item) => (
+                        {Array.isArray(services) && services?.map((item) => (
                             <tr key={item.id} className="even:bg-gray-50 odd:bg-white hover:bg-gray-100">
                                 <td className="py-4 px-4 border-b">
                                     <img
-                                        src={item.image}
-                                        alt={`${item.name}'s avatar`}
+                                        src={item?.serviceIcon
+                                        }
+                                        alt={`${item?.
+                                            serviceTitle
+                                            }'s avatar`}
                                         className="w-12 h-12 rounded-full object-cover"
                                     />
                                 </td>
-                                <td className="py-4 px-4 border-b">{item.name}</td>
-                                <td className="py-4 px-4 border-b text-gray-500">{item.role}</td>
-                                <td className="py-4 px-4 border-b">{item.testimonial}</td>
-                                <td className="py-4 px-4 border-b">
-                                    <div className="flex">
-                                        {[...Array(item.rating)].map((_, i) => (
-                                            <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 24 24">
-                                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                            </svg>
-                                        ))}
-                                    </div>
-                                </td>
+                                <td className="py-4 px-4 border-b">{item?.
+                                    serviceTitle
+                                }</td>
+                                <td className="py-4 px-4 border-b "><p className="line-clamp-1">
+                                    {item?.
+                                        description
+                                    }</p></td>
+
                                 <td className="py-4 px-4 border-b">
                                     <div className="flex space-x-2">
                                         <button
-                                            onClick={() => handleEdit(item.id)}
+                                            type="submit"
+                                            onClick={() => handleEdit(item?._id)}
                                             className="px-3 py-1 bg-green-500 text-white text-sm font-medium rounded hover:bg-green-600 transition-colors"
                                         >
                                             Edit
                                         </button>
                                         <button
-                                            onClick={() => handleDelete(item.id)}
+                                            type="submit"
+                                            // onClick={() => handleDelete(item?._id)}
                                             className="px-3 py-1 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600 transition-colors"
                                         >
                                             Delete

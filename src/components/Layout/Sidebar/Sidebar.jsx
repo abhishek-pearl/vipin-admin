@@ -67,6 +67,34 @@ const Sidebar = () => {
             </Link>
           </li>
 
+          <li>
+            <Link
+              to="/header"
+              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
+            >
+              <CategoryIcon />
+              <span className="flex-1 ms-3 whitespace-nowrap">Header</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/footer"
+              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
+            >
+              <CategoryIcon />
+              <span className="flex-1 ms-3 whitespace-nowrap">Footer</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/privacyPolicy"
+              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
+            >
+              <CategoryIcon />
+              <span className="flex-1 ms-3 whitespace-nowrap">Privacy Policy</span>
+            </Link>
+          </li>
+
 
 
           <li>

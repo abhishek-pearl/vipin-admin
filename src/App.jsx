@@ -23,6 +23,10 @@ import Testimonials from "./pages/Testimonials/Testimonials";
 import AddTestimonial from "./pages/Testimonials/AddTestimonial";
 import AddServices from "./pages/Services/AddServices";
 import Services from "./pages/Services/Services";
+import HeaderCRUD from "./pages/Header/HeaderCRUD";
+import AddHeaderItems from "./pages/Header/AddHeaderItems";
+import AddPrivacyPolicy from "./pages/PrivacyPolicy/AddPrivacyPolicy";
+import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 
 
 
@@ -84,6 +88,24 @@ const App = () => {
           path: "/createTestimonial",
           element: <AddTestimonial />,
         },
+        {
+          path: "/header",
+          element: <HeaderCRUD />,
+        },
+        {
+          path: "/addHeader",
+          element: <AddHeaderItems />,
+        },
+        {
+          path: "/privacyPolicy",
+          element: <PrivacyPolicy />,
+        },
+
+        {
+          path: "/addPrivacyPolicy",
+          element: <AddPrivacyPolicy />,
+        },
+
 
 
       ],
