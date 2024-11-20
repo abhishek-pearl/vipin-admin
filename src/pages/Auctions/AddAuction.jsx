@@ -140,11 +140,7 @@ const AddAuction = () => {
                 name="category"
                 control={control}
                 render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={categories}
-                    required
-                  />
+                  <Select {...field} options={categories} required />
                 )}
               />
               {errors.category && (
@@ -253,7 +249,7 @@ const AddAuction = () => {
             </div>
 
             <div>
-              <label className="font-medium">emd</label>
+              <label className="font-medium">EMD</label>
               <input
                 {...register("emd", { required: "emd is required" })}
                 type="number"
@@ -396,7 +392,7 @@ const AddAuction = () => {
 
             <div className="relative w-full space-y-1">
               <label htmlFor="input" className="font-medium ">
-              Select File
+                Select File
               </label>
               <div className="items-center justify-center  mx-auto">
                 <label
@@ -443,7 +439,7 @@ const AddAuction = () => {
             </div>
             <div className="relative w-full space-y-1">
               <label htmlFor="input" className="font-medium ">
-              Select Banner
+                Select Banner
               </label>
               <div className="items-center justify-center  mx-auto">
                 <label

@@ -173,6 +173,8 @@ export default function AddServices() {
     } catch (error) {
       setIsSubmitting(false);
       console.log(error, "error");
+    } finally {
+      setIsSubmitting(false);
     }
     console.log(data);
   };
