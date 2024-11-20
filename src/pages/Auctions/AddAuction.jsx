@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
+import { State, City } from "country-state-city";
 import { instance } from "../../services/axiosInterceptor";
 import { Toaster, toast } from "sonner";
 import { ClipLoader } from "react-spinners";
@@ -9,6 +10,10 @@ const AddAuction = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [watchImageName, setWatchImageName] = useState();
   const [watchFileName, setWatchFileName] = useState();
+  const [stateLists, setStateLists] = useState([]);
+  const [cityList, setCityLists] = useState([]);
+  const stateRef = useRef()
+  const cityRef = useRef()
 
   const {
     register,
@@ -22,16 +27,22 @@ const AddAuction = () => {
   });
 
   const categories = [
-    { value: "Commercial", label: "Commercial" },
-    { value: "Gold Auctions", label: "Gold Auctions" },
-    { value: "Industrials", label: "Industrials" },
-    { value: "Others", label: "Others" },
-    { value: "Residential", label: "Residential" },
-    { value: "Scrap, Plant & Machinery", label: "Scrap, Plant & Machinery" },
-    { value: "Vehicle Auctions", label: "Vehicle Auctions" },
+    { value: "commercial", label: "Commercial" },
+    { value: "industrials", label: "Industrials" },
+    { value: "agriculture", label: "Agriculture Land" },
+    { value: "residential", label: "Residential" },
+    { value: "vehicle", label: "Vehicle Auctions" },
   ];
 
   const onSubmit = (data) => {
+
+
+    let city = (cityRef.current.state.ariaSelection.value.value).toLowerCase();
+    let state = (stateRef.current.state.ariaSelection.value.value).toLowerCase();
+
+    console.log(city)
+    console.log(state)
+    // return
     if (isLoading) return;
     setIsLoading(true);
     const formData = new FormData();
@@ -45,8 +56,8 @@ const AddAuction = () => {
 
     formData.append("title", data.title);
     formData.append("category", data.category.value);
-    formData.append("state", data.state);
-    formData.append("city", data.city);
+    formData.append("state", state);
+    formData.append("city", city);
     formData.append("area", data.area);
     formData.append("description", data.description);
     formData.append("bankName", data.bankName);
@@ -108,6 +119,36 @@ const AddAuction = () => {
     setWatchFileName(temp2);
   }, [temp2]);
 
+  // This block of code is used to set Indian states dropdown Values.
+  useEffect(() => {
+    const states = State.getStatesOfCountry("IN");
+    if (states?.length > 0) {
+      setStateLists(
+        states.map((state) => {
+          return {
+            label: state?.name,
+            value: state?.isoCode,
+          };
+        })
+      );
+    }
+  }, []);
+
+  const fetchCitiesList = (state) => {
+    const citiesList = City.getCitiesOfState("IN", state?.value);
+    setCityLists(
+      citiesList.map((city) => {
+        return {
+          label: city?.name,
+          value: city?.name,
+        };
+      })
+    );
+  };
+  useEffect(() => {
+    console.log(stateLists);
+  }, [stateLists]);
+
   return (
     <div className="p-10">
       <Toaster />
@@ -151,8 +192,38 @@ const AddAuction = () => {
                 <span className="text-red-500">Category is required</span>
               )}
             </div>
+            <div className="flex flex-col justify-center">
+              <label className="font-medium mb-2">State</label>
+              <Select
+                ref={stateRef}
+                options={stateLists}
+                placeholder="State"
+                // value={value || null}
+                onChange={(val) => {
+                  // resetField("City");
+                  // onChange(val);
+                  console.log(val);
+                  fetchCitiesList(val);
+                }}
+              // getOptionLabel={(e) => e.label}
+              // getOptionValue={(e) => e.value}
+              // closeMenuOnSelect={true}
+              />
+            </div>
+            <div className="flex flex-col justify-center">
+              <label className="font-medium mb-2">City</label>
+              <Select
+                ref={cityRef}
+                // value={value || null}
+                placeholder="City"
+                options={cityList}
+                onChange={(val) => {
+                  console.log(val);
+                }}
+              />
+            </div>
 
-            <div>
+            {/* <div>
               <label className="font-medium">State</label>
               <input
                 {...register("state", { required: "state is required" })}
@@ -174,7 +245,7 @@ const AddAuction = () => {
               {errors.city && (
                 <span className="text-red-500">city is required</span>
               )}
-            </div>
+            </div> */}
 
             <div>
               <label className="font-medium">Area</label>
@@ -253,7 +324,7 @@ const AddAuction = () => {
             </div>
 
             <div>
-              <label className="font-medium">emd</label>
+              <label className="font-medium">EMD</label>
               <input
                 {...register("emd", { required: "emd is required" })}
                 type="number"
@@ -396,7 +467,7 @@ const AddAuction = () => {
 
             <div className="relative w-full space-y-1">
               <label htmlFor="input" className="font-medium ">
-              Select File
+                Select File
               </label>
               <div className="items-center justify-center  mx-auto">
                 <label
@@ -420,7 +491,7 @@ const AddAuction = () => {
                     </svg>
                     <span className="font-medium text-gray-600">
                       {Array.isArray(Array.from(watchFileName || {})) &&
-                      Array.from(watchFileName || {}).length > 0
+                        Array.from(watchFileName || {}).length > 0
                         ? watchFileName[0]?.name
                         : "Drop file to Attach, or "}
                       <span className="text-blue-600 underline ml-[4px]">
@@ -443,7 +514,7 @@ const AddAuction = () => {
             </div>
             <div className="relative w-full space-y-1">
               <label htmlFor="input" className="font-medium ">
-              Select Banner
+                Select Banner
               </label>
               <div className="items-center justify-center  mx-auto">
                 <label
@@ -467,7 +538,7 @@ const AddAuction = () => {
                     </svg>
                     <span className="font-medium text-gray-600">
                       {Array.isArray(Array.from(watchImageName || {})) &&
-                      Array.from(watchImageName || {}).length > 0
+                        Array.from(watchImageName || {}).length > 0
                         ? watchImageName[0]?.name
                         : "Drop Banner to Attach, or "}
                       <span className="text-blue-600 underline ml-[4px]">
