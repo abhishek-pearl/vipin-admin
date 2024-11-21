@@ -181,11 +181,7 @@ const AddAuction = () => {
                 name="category"
                 control={control}
                 render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={categories}
-                    required
-                  />
+                  <Select {...field} options={categories} required />
                 )}
               />
               {errors.category && (
