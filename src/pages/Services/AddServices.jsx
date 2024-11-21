@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export default function AddServices() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(null);
+    const navigate = useNavigate()
     const {
         register,
         control,
@@ -169,10 +171,15 @@ export default function AddServices() {
                     },
                 }
             );
+            if (data?.status === 201) {
+                navigate('/services')
+            }
             console.log(data, "service data");
         } catch (error) {
             setIsSubmitting(false);
             console.log(error, "error");
+        } finally {
+            setIsSubmitting(false);
         }
         console.log(data);
     };
