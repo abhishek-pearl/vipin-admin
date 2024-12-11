@@ -45,35 +45,33 @@ export default function Services() {
   const [services, setServices] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const fetchData = async () => {
-    setIsLoading(true); // Show loading indicator
-    try {
-      const { data } = await instance.get(
-        `${import.meta.env.VITE_API_URL}/services`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      console.log("Fetched Services", data);
-      setServices(data); // Save fetched data
-    } catch (err) {
-      setError(err); // Handle errors
-    } finally {
-      setIsLoading(false); // Hide loading indicator
-    }
-  };
 
   useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true); // Show loading indicator
+      try {
+        const { data } = await instance.get(
+          `${import.meta.env.VITE_API_URL}/services`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
+        console.log("Fetched Services", data);
+        setServices(data); // Save fetched data
+      } catch (err) {
+        setError(err); // Handle errors
+      } finally {
+        setIsLoading(false); // Hide loading indicator
+      }
+    };
 
     fetchData();
   }, []); // Empty dependency array ensures it runs only once on mount
 
   const handleEdit = (id) => {
-    // Implement edit functionality
     console.log(`Edit testimonial with id: ${id}`);
   };
 
@@ -90,15 +88,20 @@ export default function Services() {
           "Content-Type": "application/json",
         },
       });
-      if (response?.status === 200) {
-        fetchData()
-        alert("Service deleted successfully!");
-      } else {
-        alert("Something went wrong!");
+      setServices((prevServices) => {
+        if (!Array.isArray(prevServices.data)) {
+          console.error(
+            "Expected services to be an array, but got:",
+            prevServices
+          );
+          return []; // Return empty array as fallback
+        }
 
-      }
-      console.log(response, "response")
-      // Update state
+        return prevServices?.data?.filter(
+          (service) => service._id !== id.toString()
+        );
+      }); // Update state
+      alert("Service deleted successfully!");
     } catch (err) {
       setError(err);
       console.error("Failed to delete service", err);
@@ -173,12 +176,12 @@ export default function Services() {
                 </td> */}
                 <td className="py-4 px-4 border-b">
                   <div className="flex space-x-2">
-                    {/* <button
+                    <button
                       onClick={() => handleEdit(service.id)}
                       className="px-3 py-1 bg-green-500 text-white text-sm font-medium rounded hover:bg-green-600 transition-colors"
                     >
                       Edit
-                    </button> */}
+                    </button>
                     <button
                       onClick={() => deleteService(service._id)}
                       className="px-3 py-1 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600 transition-colors"
