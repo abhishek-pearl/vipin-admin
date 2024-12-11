@@ -23,12 +23,12 @@ import Testimonials from "./pages/Testimonials/Testimonials";
 import AddTestimonial from "./pages/Testimonials/AddTestimonial";
 import AddServices from "./pages/Services/AddServices";
 import Services from "./pages/Services/Services";
-
-
+import UpdateServices from "./pages/Services/UpdateServices";
+import Payments from "./pages/Payments/Payments";
 
 const App = () => {
-  const { userData } = useAppStore()
-  console.log(userData?.isUserLoggedIn)
+  const { userData } = useAppStore();
+  console.log(userData?.isUserLoggedIn);
   const router = createBrowserRouter([
     {
       path: "/",
@@ -77,18 +77,23 @@ const App = () => {
           element: <AddServices />,
         },
         {
-          path: "/testimonials",
-          element: <Testimonials />,
+          path: "/services/:id",
+          element: <UpdateServices />,
         },
+        // {
+        //   path: "/testimonials",
+        //   element: <Testimonials />,
+        // },
+        // {
+        //   path: "/createTestimonial",
+        //   element: <AddTestimonial />,
+        // },
         {
-          path: "/createTestimonial",
-          element: <AddTestimonial />,
+          path: "/payments",
+          element: <Payments />,
         },
-
-
       ],
     },
-
 
     {
       path: "*",
