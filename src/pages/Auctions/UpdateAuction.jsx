@@ -45,12 +45,22 @@ const UpdateAuction = () => {
       .then((res) => {
         const result = res?.data?.result;
 
+        console.log(result, "my result");
+
         setDefaultCategory({
           value: result?.category,
           label: result?.category,
         });
+
+        console.log(defaultCategory, "my default category");
+
         setExistingBanner(result?.banner[0]?.secure_url);
+
+        console.log(existingBanner, "my banner");
+
         setExistingFile(result?.downloads[0]?.secure_url);
+
+        console.log(existingFile, "my exist file");
         reset({
           title: result?.title,
           category: { value: result?.category, label: result?.category },
@@ -77,10 +87,11 @@ const UpdateAuction = () => {
         setIsLoading(false);
       })
       .catch((err) => {
+        console.log(err, "my shubham error");
         reset();
 
         setIsLoading(false);
-        toast.error(err, {
+        toast.error(err.message, {
           style: {
             background: "red",
             color: "white",
