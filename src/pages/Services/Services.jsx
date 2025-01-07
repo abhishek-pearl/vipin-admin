@@ -176,12 +176,12 @@ export default function Services() {
                 </td> */}
                 <td className="py-4 px-4 border-b">
                   <div className="flex space-x-2">
-                    <button
+                    {/* <button
                       onClick={() => handleEdit(service.id)}
                       className="px-3 py-1 bg-green-500 text-white text-sm font-medium rounded hover:bg-green-600 transition-colors"
                     >
                       Edit
-                    </button>
+                    </button> */}
                     <button
                       onClick={() => deleteService(service._id)}
                       className="px-3 py-1 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600 transition-colors"

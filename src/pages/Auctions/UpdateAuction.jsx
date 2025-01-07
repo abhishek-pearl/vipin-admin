@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { instance } from "../../services/axiosInterceptor";
 import { Toaster, toast } from "sonner";
 import { ClipLoader } from "react-spinners";
@@ -16,6 +16,8 @@ const UpdateAuction = () => {
   });
   const [existingBanner, setExistingBanner] = useState(null);
   const [existingFile, setExistingFile] = useState(null);
+
+  const navigate = useNavigate()
 
   const { id } = useParams();
 
@@ -143,7 +145,7 @@ const UpdateAuction = () => {
 
     // api call here
     instance
-      .post(`/auction`, formData)
+      .patch(`/auction/${id}`, formData)
       .then((res) => {
         reset();
         setIsLoading(false);
@@ -153,7 +155,7 @@ const UpdateAuction = () => {
             color: "white",
           },
         });
-        window.location.href = "/auctions";
+        navigate("/auctions")
       })
       .catch((err) => {
         reset();
@@ -501,7 +503,7 @@ const UpdateAuction = () => {
                     </svg>
                     <span className="font-medium text-gray-600">
                       {Array.isArray(Array.from(watchFileName || {})) &&
-                      Array.from(watchFileName || {}).length > 0
+                        Array.from(watchFileName || {}).length > 0
                         ? watchFileName[0]?.name
                         : "Drop file to Attach, or "}
                       <span className="text-blue-600 underline ml-[4px]">
@@ -556,7 +558,7 @@ const UpdateAuction = () => {
                     </svg>
                     <span className="font-medium text-gray-600">
                       {Array.isArray(Array.from(watchImageName || {})) &&
-                      Array.from(watchImageName || {}).length > 0
+                        Array.from(watchImageName || {}).length > 0
                         ? watchImageName[0]?.name
                         : "Drop Banner to Attach, or "}
                       <span className="text-blue-600 underline ml-[4px]">
