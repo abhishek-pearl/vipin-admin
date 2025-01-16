@@ -4,16 +4,17 @@ import { Link } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { instance } from "../../services/axiosInterceptor";
 
-const News = () => {
-  const [newsData, setNewsData] = useState(undefined);
+const Banners = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [banners, setBanners] = useState([]);
 
-  const getNews = () => {
+  const getBanners = () => {
     setIsLoading(true);
     instance
-      .get(`/news`)
+      .get(`/banner`)
       .then((res) => {
-        setNewsData(res?.data?.result);
+        setBanners(res?.data);
+        // console.table(res?.data);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -23,13 +24,13 @@ const News = () => {
   };
 
   useEffect(() => {
-    getNews();
+    getBanners();
   }, []);
 
   const deleteItem = (item) => {
-    if (window.confirm(`Are you sure you want to delete news ${item?.title}`)) {
+    if (window.confirm(`Are you sure you want to delete the banner`)) {
       instance
-        .delete(`${import.meta.env.VITE_API_URL}/news/${item._id}`)
+        .delete(`${import.meta.env.VITE_API_URL}/banner/${item._id}`)
         .then((res) => {
           toast.success(res.data.message, {
             style: {
@@ -37,11 +38,11 @@ const News = () => {
               color: "white",
             },
           });
-          getNews();
+          getBanners();
         })
         .catch((err) => {
           console.log(err);
-          toast.error("There was some issue deleting the news", {
+          toast.error("There was some issue deleting the banner", {
             style: {
               background: "red",
               color: "white",
@@ -50,7 +51,6 @@ const News = () => {
         });
     }
   };
-
   return (
     <div>
       <Toaster />
@@ -58,7 +58,7 @@ const News = () => {
       <div className="p-10 ">
         <div className="flex items-center justify-end flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-8 bg-white ">
           <Link
-            to="/news/add"
+            to="/banner/add"
             className="bg-blue-600 rounded-md text-white px-3 py-1 font-semibold "
           >
             Add
@@ -73,7 +73,7 @@ const News = () => {
               <Skeleton animation="wave" height={50} />
             </>
           )}
-          {newsData && (
+          {banners && (
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">
                 <tr>
@@ -89,24 +89,33 @@ const News = () => {
                 </tr>
               </thead>
               <tbody>
-                {newsData.map((item, idx) => (
-                  <tr className="bg-white border-b   hover:bg-gray-50 ">
+                {banners?.data?.map((item, idx) => (
+                  <tr
+                    key={idx}
+                    className="bg-white border-b   hover:bg-gray-50 "
+                  >
                     <th
                       scope="row"
                       className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "
                     >
                       <div className="ps-3">{idx + 1}</div>
                     </th>
-                    <td className="px-6 py-4">{item.title}</td>
+                    <td className="px-6 py-4">
+                      <img
+                        src={item.banner}
+                        alt="Banner"
+                        className="w-56 h-56"
+                      />
+                    </td>
 
                     {/* <td className="px-6 py-4">
-                      <Link
-                        to={`/news/update/${item?._id}`}
-                        className="font-medium text-blue-600  hover:underline"
-                      >
-                        Edit
-                      </Link>
-                    </td> */}
+                        <Link
+                          to={`/news/update/${item?._id}`}
+                          className="font-medium text-blue-600  hover:underline"
+                        >
+                          Edit
+                        </Link>
+                      </td> */}
                     <td className="px-6 py-4 text-center">
                       <button
                         className="font-medium text-red-600  hover:underline"
@@ -122,8 +131,8 @@ const News = () => {
               </tbody>
             </table>
           )}
-          {newsData?.length <= 0 && (
-            <div className="text-center p-2">No News Data Found</div>
+          {banners?.length <= 0 && (
+            <div className="text-center p-2">No Banners Found</div>
           )}
         </div>
       </div>
@@ -131,4 +140,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default Banners;

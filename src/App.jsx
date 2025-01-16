@@ -25,6 +25,8 @@ import AddServices from "./pages/Services/AddServices";
 import Services from "./pages/Services/Services";
 import UpdateServices from "./pages/Services/UpdateServices";
 import Payments from "./pages/Payments/Payments";
+import Banners from "./pages/Banners/Banners";
+import AddBanner from "./pages/Banners/AddBanner";
 
 const App = () => {
   const { userData } = useAppStore();
@@ -91,6 +93,14 @@ const App = () => {
         {
           path: "/payments",
           element: <Payments />,
+        },
+        {
+          path: "/banners",
+          element: <Banners />,
+        },
+        {
+          path: "/banner/add",
+          element: <AddBanner />,
         },
       ],
     },
