@@ -1,78 +1,78 @@
 import axios from "axios";
-
+import jwt from "jsonwebtoken"; 
 // Creating new axios instance
 export const instance = axios.create({
-  withCredentials: true,
-  baseURL: `${import.meta.env.VITE_API_URL}`,
+    withCredentials: true,
+    baseURL: `${
+        import.meta.VITE_REACT_APP_WORKING_ENVIRONMENT === "development"
+            ? import.meta.VITE_PUBLIC_API_URL
+            : import.meta.VITE_PUBLIC_API_URL_PRODUCTION
+    }`,
 });
 
+// Request interceptor
 instance.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-  (error) => {
-    // Do something with response error
-    return Promise.reject(error);
-  }
-);
+    async (request) => {
+      
+      let cookies ='' ;
+      if(document?.cookie)
+      {
+        const cookieHeader = document?.cookie;
+         cookies = cookieHeader.split(";").reduce((acc, cookie) => {
+          const [key, value] = cookie.split("=").map((item) => item.trim());
+          acc[key] = value;
+          return acc;
+      }, {});
 
-instance.interceptors.response.use(
-  (response) => {
-    // console.log(response)
-    return response;
-  },
-  async (error) => {
-    console.log(error);
+      if (cookies?.DHANLAXMI_ACCESS_TOKEN) {
+        const decode = jwt.decode(cookies?.DHANLAXMI_ACCESS_TOKEN);
+        console.log("Token Expiration Time:", decode.exp);
 
-    let errorMessage = "";
-    // Do something with response error
-    let loggedInUserName = "admin";
-    let originalRequest = error.config;
+        // Check if the token is about to expire (or already expired)
+        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+        if (decode.exp < currentTime) {
+          console.log("Access token expired. Fetching new tokens...");
 
-    if (
-      error.response.status === 401 ||
-      (error.response.status === 403 && !originalRequest._retry)
-    ) {
-      originalRequest._retry = true;
-      try {
-        if (loggedInUserName) {
-          await instance.post(
-            "/auth/refresh",
-            { userName: loggedInUserName },
-            {
-              withCredentials: true,
-            }
-          );
-          return instance(originalRequest);
-        } else {
-          errorMessage = "Unauthorized Access";
-          return Promise.reject(errorMessage);
+          try {
+            // Make a request to the /refreshToken endpoint
+            const response = await axios.post(
+              `${import.meta.VITE_PUBLIC_API_URL}/user/refresh`,
+              {},
+              { withCredentials: true } // Ensure cookies are sent
+            );
+
+          
+            // return response;
+            
+
+          } catch (error) {
+            console.error("Error refreshing token:", error);
+            return Promise.reject(error);
+          }
         }
-      } catch (error) {
-        return Promise.reject(error);
+  
       }
     }
-
-    switch (Number(error.response.status)) {
-      case 400:
-        errorMessage = error.response.data.message || "Bad Request";
-        break;
-
-      case 404:
-        errorMessage = error.response.data.message || "Resource Not Found";
-        break;
-
-      case 500:
-        errorMessage = error.response.data.message || "Internal Server Error";
-        break;
-
-      default:
-        errorMessage =
-          error.response.data.message ||
-          "Sorry, something went wrong. Please try again later.";
+     
+    return request;
+    },
+    (error) => {
+        console.log("[AXIOS REQUEST ERROR]", error);
+        return Promise.reject(error);
     }
-    return Promise.reject(errorMessage);
-  }
 );
 
-// ------------------------------------------- THE END -------------------------------------------
+// Response interceptor
+instance.interceptors.response.use(
+    (response) => {
+        console.log("[AXIOS RESPONSE]", response);
+        return response; // Must return response
+    },
+    (error) => {
+        console.log("[AXIOS RESPONSE ERROR]", error);
+        return Promise.reject(error);
+    }
+);
+
+
+
