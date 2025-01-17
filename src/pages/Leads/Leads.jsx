@@ -12,7 +12,7 @@ const Leads = () => {
   const geLeads = () => {
     setIsLoading(true);
     instance
-      .get(`/contact`)
+      .get(`contact`)
       .then((res) => {
         setLeads(res?.data);
         // console.table(res?.data);
