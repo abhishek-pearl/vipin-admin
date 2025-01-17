@@ -27,6 +27,7 @@ import UpdateServices from "./pages/Services/UpdateServices";
 import Payments from "./pages/Payments/Payments";
 import Banners from "./pages/Banners/Banners";
 import AddBanner from "./pages/Banners/AddBanner";
+import Leads from "./pages/Leads/Leads";
 
 const App = () => {
   const { userData } = useAppStore();
@@ -101,6 +102,10 @@ const App = () => {
         {
           path: "/banner/add",
           element: <AddBanner />,
+        },
+        {
+          path: "/leads",
+          element: <Leads />,
         },
       ],
     },

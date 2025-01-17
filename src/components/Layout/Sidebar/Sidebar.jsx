@@ -76,6 +76,15 @@ const Sidebar = () => {
               <span className="flex-1 ms-3 whitespace-nowrap">Banners</span>
             </Link>
           </li>
+          <li>
+            <Link
+              to="/leads"
+              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
+            >
+              <CategoryIcon />
+              <span className="flex-1 ms-3 whitespace-nowrap">Leads</span>
+            </Link>
+          </li>
 
           <li>
             <div

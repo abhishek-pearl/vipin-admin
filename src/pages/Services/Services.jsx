@@ -3,44 +3,7 @@ import { Link } from "react-router-dom";
 import { instance } from "../../services/axiosInterceptor";
 
 export default function Services() {
-  //   const testimonials = [
-  //     {
-  //       id: 1,
-  //       name: "John Doe",
-  //       role: "CEO, TechCorp",
-  //       testimonial:
-  //         "This product has revolutionized our workflow. Highly recommended!",
-  //       rating: 5,
-  //       image: "/placeholder.svg?height=60&width=60",
-  //     },
-  //     {
-  //       id: 2,
-  //       name: "Jane Smith",
-  //       role: "Designer, CreativeCo",
-  //       testimonial:
-  //         "Intuitive and powerful. It's been a game-changer for our team.",
-  //       rating: 4,
-  //       image: "/placeholder.svg?height=60&width=60",
-  //     },
-  //     {
-  //       id: 3,
-  //       name: "Mike Johnson",
-  //       role: "Freelancer",
-  //       testimonial:
-  //         "I've tried many similar products, but this one stands out. It's simply the best.",
-  //       rating: 5,
-  //       image: "/placeholder.svg?height=60&width=60",
-  //     },
-  //     {
-  //       id: 4,
-  //       name: "Emily Brown",
-  //       role: "Marketing Manager, BrandInc",
-  //       testimonial:
-  //         "Great features and excellent customer support. Very satisfied!",
-  //       rating: 4,
-  //       image: "/placeholder.svg?height=60&width=60",
-  //     },
-  //   ];
+ 
 
   const [services, setServices] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
