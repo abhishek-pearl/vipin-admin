@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { instance } from "../../services/axiosInterceptor";
 
 export default function Services() {
@@ -8,7 +8,7 @@ export default function Services() {
   const [services, setServices] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true); // Show loading indicator
@@ -36,6 +36,7 @@ export default function Services() {
 
   const handleEdit = (id) => {
     console.log(`Edit testimonial with id: ${id}`);
+    navigate(`${id}`)
   };
 
   const deleteService = async (id) => {
@@ -139,14 +140,14 @@ export default function Services() {
                 </td> */}
                 <td className="py-4 px-4 border-b">
                   <div className="flex space-x-2">
-                    {/* <button
-                      onClick={() => handleEdit(service.id)}
+                    <button
+                      onClick={() => handleEdit(service?._id)}
                       className="px-3 py-1 bg-green-500 text-white text-sm font-medium rounded hover:bg-green-600 transition-colors"
                     >
                       Edit
-                    </button> */}
+                    </button>
                     <button
-                      onClick={() => deleteService(service._id)}
+                      onClick={() => deleteService(service?._id)}
                       className="px-3 py-1 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600 transition-colors"
                     >
                       Delete
