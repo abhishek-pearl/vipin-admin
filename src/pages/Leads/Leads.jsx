@@ -3,11 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { instance } from "../../services/axiosInterceptor";
+import LeadsDetails from "./LeadsDetails";
 
 const Leads = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [leads, setLeads] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [singleLeadData, setSingleLeadData] = useState(null);
 
   const geLeads = () => {
     setIsLoading(true);
@@ -23,10 +25,9 @@ const Leads = () => {
         setIsLoading(false);
       });
   };
-  
 
-  function deleteItem(id)
-  {
+
+  function deleteItem(id) {
     setIsLoading(true);
     instance
       .delete(`/contact/${id}`)
@@ -49,7 +50,7 @@ const Leads = () => {
   return (
     <div>
       <Toaster />
-         
+
       <div className="p-10 ">
 
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -95,60 +96,24 @@ const Leads = () => {
                       <div className="ps-3">{idx + 1}</div>
                     </th>
                     <td className="px-6 py-4">
-                    {item.name}
+                      {item.name}
                     </td>
                     <td className="px-6 py-4">
-                    {item.email}
+                      {item.email}
                     </td>
                     <td className="px-6 py-4 ">
-                     <p className="line-clamp-2">{item.message}</p>
+                      <p className="line-clamp-2">{item.message}</p>
                     </td>
 
-                    
-                    {isModalOpen && (
-                      <div className="fixed inset-0 bg-white bg-opacity-10  flex items-center justify-center">
-                        <div className="bg-blue-200 p-6 rounded-lg shadow-lg max-w-sm w-full">
-                          <h2 className="text-xl font-bold mb-4">
-                            Leads Details
-                          </h2>
-                          <p>
-                            <strong> ID:</strong>{" "}
-                            {item._id}
-                          </p>
-                          <p>
-                            <strong>Name:</strong> {item?.name}
-                          </p>
-                          <p>
-                            <strong>Email:</strong> {item?.email}
-                          </p>
-                          <p>
-                            <strong>Phone Number:</strong> {item?.mobile}
-                          </p>
-                          <p>
-                            <strong>Message</strong> {item?.message||"Message Not Found"}
-                          </p>
-                          <p>
-                            <strong>Pincode</strong> {item?.pincode}
-                          </p>
-                          <p>
-                            <strong>Type Of Loan</strong> {item?.typeOfLoan}
-                          </p>
-                          
-                          <button
-                            onClick={()=>setIsModalOpen(false)}
-                            className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                          >
-                            Close
-                          </button>
-                        </div>
-                      </div>
-                    )}
+
+
 
                     <td className=" flex  justify-between gap-2 px-6 py-4 text-center">
                       <button
                         className="font-medium text-red-600  hover:underline"
                         onClick={() => {
-                            setIsModalOpen(true);
+                          setSingleLeadData(item)
+                          setIsModalOpen(true);
                         }}
                       >
                         View
@@ -171,8 +136,11 @@ const Leads = () => {
             <div className="text-center p-2">No Data Found</div>
           )}
         </div>
+        {isModalOpen && (
+          <LeadsDetails singleLeadData={singleLeadData} setIsModalOpen={setIsModalOpen} />
 
-       
+        )}
+
       </div>
     </div>
   );
