@@ -10,7 +10,7 @@ const CreateNews = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors} ,
     control,
     watch,
     reset,
