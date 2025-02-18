@@ -1,23 +1,26 @@
 import { Skeleton } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { instance } from "../../services/axiosInterceptor";
 import LeadsDetails from "./LeadsDetails";
+import { saveAs } from "file-saver";
 
 const Leads = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [leads, setLeads] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [singleLeadData, setSingleLeadData] = useState(null);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const geLeads = () => {
     setIsLoading(true);
     instance
-      .get(`contact`)
+      .get(`contact`, {
+        params: { startDate, endDate },
+      })
       .then((res) => {
         setLeads(res?.data);
-        // console.table(res?.data);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -26,14 +29,13 @@ const Leads = () => {
       });
   };
 
-
   function deleteItem(id) {
     setIsLoading(true);
     instance
       .delete(`/contact/${id}`)
-      .then((res) => {
+      .then(() => {
         geLeads();
-        toast.success("Lead Detail Deleted !!")
+        toast.success("Lead Detail Deleted !!");
         setIsLoading(false);
       })
       .catch((err) => {
@@ -44,15 +46,62 @@ const Leads = () => {
 
   useEffect(() => {
     geLeads();
-  }, []);
+  }, [startDate, endDate]);
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+
+    return date.toLocaleString("en-US", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
+  const downloadCSV = () => {
+    if (leads?.data?.length > 0) {
+      const csvHeader = "S.No,Title,Email,Mobile,Loan Required,Pincode,Type of Loan,Date and Time\n";
+      const csvRows = leads?.data?.map(
+        (item, idx) => `${idx + 1},${item.name},${item.email},${item.mobile},${item.loanRequired},${item.pincode},${item.typeOfLoan},${formatDate(item?.createdAt)}`
+      );
+      const csvContent = csvHeader + csvRows.join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      saveAs(blob, "leads.csv");
+    } else {
+      console.log("khali h")
+    }
+  };
+
+
+
 
 
   return (
     <div>
       <Toaster />
-
-      <div className="p-10 ">
-
+      <div className="p-10">
+        <div className="flex gap-4 mb-4">
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="border p-2 rounded"
+          />
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="border p-2 rounded"
+          />
+          <button
+            onClick={downloadCSV}
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Download CSV
+          </button>
+        </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           {isLoading && (
             <>
@@ -63,66 +112,38 @@ const Leads = () => {
             </>
           )}
           {leads && (
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">
+            <table className="w-full text-sm text-left text-gray-500">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
-                  <th scope="col" className="px-6 py-3">
-                    S.No
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Title
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Email
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Message
-                  </th>
-                  <th scope="col" colSpan={1} className="text-center px-6 py-3">
-                    Actions
-                  </th>
+                  <th className="px-6 py-3">S.No</th>
+                  <th className="px-6 py-3">Title</th>
+                  <th className="px-6 py-3">Email</th>
+                  <th className="px-6 py-3">Mobile</th>
+                  <th className="px-6 py-3">Date</th>
+                  <th className="px-6 py-3 text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {leads?.data?.map((item, idx) => (
-                  <tr
-                    key={item?._id}
-                    className="bg-white border-b   hover:bg-gray-50 "
-                  >
-                    <th
-                      scope="row"
-                      className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "
-                    >
-                      <div className="ps-3">{idx + 1}</div>
-                    </th>
-                    <td className="px-6 py-4">
-                      {item.name}
-                    </td>
-                    <td className="px-6 py-4">
-                      {item.email}
-                    </td>
-                    <td className="px-6 py-4 ">
-                      <p className="line-clamp-2">{item.message}</p>
-                    </td>
-
-
-
-
-                    <td className=" flex  justify-between gap-2 px-6 py-4 text-center">
+                  <tr key={item?._id} className="bg-white border-b hover:bg-gray-50">
+                    <td className="px-6 py-4">{idx + 1}</td>
+                    <td className="px-6 py-4">{item?.name}</td>
+                    <td className="px-6 py-4">{item?.email}</td>
+                    <td className="px-6 py-4">{item?.mobile}</td>
+                    <td className="px-6 py-4">{formatDate(item?.createdAt)}</td>
+                    <td className="px-6 py-4 text-center flex gap-2">
                       <button
-                        className="font-medium text-red-600  hover:underline"
+                        className="text-blue-600 hover:underline"
                         onClick={() => {
-                          setSingleLeadData(item)
+                          setSingleLeadData(item);
                           setIsModalOpen(true);
                         }}
                       >
                         View
                       </button>
                       <button
-                        className="font-medium text-red-600  hover:underline"
-                        onClick={() => {
-                          deleteItem(item?._id);
-                        }}
+                        className="text-red-600 hover:underline"
+                        onClick={() => deleteItem(item?._id)}
                       >
                         Delete
                       </button>
@@ -132,15 +153,11 @@ const Leads = () => {
               </tbody>
             </table>
           )}
-          {leads?.length <= 0 && (
-            <div className="text-center p-2">No Data Found</div>
-          )}
+          {leads?.length <= 0 && <div className="text-center p-2">No Data Found</div>}
         </div>
         {isModalOpen && (
           <LeadsDetails singleLeadData={singleLeadData} setIsModalOpen={setIsModalOpen} />
-
         )}
-
       </div>
     </div>
   );

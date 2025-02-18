@@ -3,36 +3,6 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 
 const LeadsDetails = ({ setIsModalOpen, singleLeadData }) => {
-    // Function to handle downloading the details as a PDF in tabular form
-    const handleDownloadPDF = () => {
-        const doc = new jsPDF({
-            orientation: "portrait",
-            unit: "mm",
-            format: "a4", // A4 size for the PDF
-        });
-
-        // Title
-        doc.setFontSize(16);
-        doc.text("Lead Details", 14, 15);
-
-        // Add a table using autoTable
-        doc.autoTable({
-            startY: 20,
-            head: [["Field", "Value"]],
-            body: [
-                ["ID", singleLeadData._id],
-                ["Name", singleLeadData?.name],
-                ["Email", singleLeadData?.email],
-                ["Phone Number", singleLeadData?.mobile],
-                ["Message", singleLeadData?.message || "Message Not Found"],
-                ["Pincode", singleLeadData?.pincode],
-                ["Type Of Loan", singleLeadData?.typeOfLoan],
-            ],
-        });
-
-        // Save the PDF
-        doc.save(`Lead_Details_${singleLeadData._id}.pdf`);
-    };
     useEffect(() => {
 
         const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -51,12 +21,7 @@ const LeadsDetails = ({ setIsModalOpen, singleLeadData }) => {
             <div className="bg-white space-y-2 p-6 rounded-lg shadow-lg max-w-lg w-full">
                 <h2 className="text-xl font-bold mb-4 flex justify-between">
                     Leads Details{" "}
-                    <span
-                        className="text-xs text-blue-500 cursor-pointer hover:underline"
-                        onClick={handleDownloadPDF}
-                    >
-                        Download PDF
-                    </span>
+
                 </h2>
                 <p className="bg-gray-200 px-2 py-1 rounded-md">
                     <strong>ID:</strong> {singleLeadData._id}
@@ -69,6 +34,9 @@ const LeadsDetails = ({ setIsModalOpen, singleLeadData }) => {
                 </p>
                 <p className="bg-gray-200 px-2 py-1 rounded-md">
                     <strong>Phone Number:</strong> {singleLeadData?.mobile}
+                </p>
+                <p className="bg-gray-200 px-2 py-1 rounded-md">
+                    <strong>Loan Required:</strong> {singleLeadData?.loanRequired}
                 </p>
                 <p className="bg-gray-200 px-2 py-1 rounded-md flex flex-col">
                     <strong>Message:</strong> {singleLeadData?.message || "Message Not Found"}

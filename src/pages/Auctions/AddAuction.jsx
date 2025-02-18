@@ -32,6 +32,7 @@ const AddAuction = () => {
     { value: "agriculture", label: "Agriculture Land" },
     { value: "residential", label: "Residential" },
     { value: "vehicle", label: "Vehicle Auctions" },
+    { value: "urgent", label: "Urgent" },
   ];
 
   const onSubmit = (data) => {
@@ -58,6 +59,7 @@ const AddAuction = () => {
 
     // Safely append other form data
     formData.append("title", data.title || '');
+    formData.append("auctionId", Number(data.auctionId) || 0);
     formData.append("category", data.category?.value || '');
     formData.append("state", state);
     formData.append("city", city);
@@ -95,7 +97,8 @@ const AddAuction = () => {
       .catch((err) => {
         reset();
         setIsLoading(false);
-        toast.error(err?.message || "An error occurred", {
+        console.log(err?.response?.data?.message)
+        toast.error(err?.response?.data?.message || "An error occurred", {
           style: {
             background: "red",
             color: "white",
@@ -168,6 +171,16 @@ const AddAuction = () => {
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
 
+            </div>
+
+            <div>
+              <label className="font-medium">AuctionId</label>
+              <input
+                {...register("auctionId", { required: true })}
+                type="text"
+                className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+              />
+              {errors.auctionId && <span className="text-red-500">This field is required</span>}
             </div>
 
             <div className="flex flex-col justify-center">
