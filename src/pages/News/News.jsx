@@ -99,15 +99,15 @@ const News = () => {
                     </th>
                     <td className="px-6 py-4">{item.title}</td>
 
-                    {/* <td className="px-6 py-4">
+
+                    <td className="px-6 py-4 text-center space-x-5">
                       <Link
                         to={`/news/update/${item?._id}`}
+                        state={item}
                         className="font-medium text-blue-600  hover:underline"
                       >
                         Edit
                       </Link>
-                    </td> */}
-                    <td className="px-6 py-4 text-center">
                       <button
                         className="font-medium text-red-600  hover:underline"
                         onClick={() => {

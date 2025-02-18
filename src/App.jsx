@@ -28,6 +28,11 @@ import Payments from "./pages/Payments/Payments";
 import Banners from "./pages/Banners/Banners";
 import AddBanner from "./pages/Banners/AddBanner";
 import Leads from "./pages/Leads/Leads";
+import AdListing from "./pages/Ads/AdListing";
+import AddAd from "./pages/Ads/AddAd";
+import UpdateAd from "./pages/Ads/UpdateAd";
+import UpdateNews from "./pages/News/UpdateNews";
+import ContactCRUD from "./pages/contact/Contact";
 
 const App = () => {
   const { userData } = useAppStore();
@@ -64,8 +69,8 @@ const App = () => {
           element: <CreateNews />,
         },
         {
-          path: "/news/update",
-          element: <CreateNews />,
+          path: "/news/update/:newsId",
+          element: <UpdateNews />,
         },
         {
           path: "/news",
@@ -83,14 +88,6 @@ const App = () => {
           path: "/services/:id",
           element: <UpdateServices />,
         },
-        // {
-        //   path: "/testimonials",
-        //   element: <Testimonials />,
-        // },
-        // {
-        //   path: "/createTestimonial",
-        //   element: <AddTestimonial />,
-        // },
         {
           path: "/payments",
           element: <Payments />,
@@ -106,6 +103,22 @@ const App = () => {
         {
           path: "/leads",
           element: <Leads />,
+        },
+        {
+          path: "/ads",
+          element: <AdListing />,
+        },
+        {
+          path: "/addAd",
+          element: <AddAd />,
+        },
+        {
+          path: "/updateAd",
+          element: <UpdateAd />
+        },
+        {
+          path: "/contact",
+          element: <ContactCRUD />
         },
       ],
     },

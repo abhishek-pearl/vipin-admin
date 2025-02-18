@@ -11,7 +11,7 @@ export default function AddServices() {
   const [stepsToAvailBanner, setSetStepToAvailBanner] = useState(null);
   const [service, setServices] = useState(null);
   const [loading, setIsLoading] = useState(false);
-  const [featuresImages,setFeatureImages] = useState([]);
+  const [featuresImages, setFeatureImages] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
   const {
@@ -169,7 +169,7 @@ export default function AddServices() {
       return () => URL?.revokeObjectURL(fileUrl);
     }
     if (watchMidSectionBanner && typeof watchMidSectionBanner != typeof {}) {
-      alert(watchMidSectionBanner);
+      // alert(watchMidSectionBanner);
       setSetStepToAvailBanner(watchMidSectionBanner);
     } else if (watchMidSectionBanner && watchMidSectionBanner.length > 0) {
       const file = watchMidSectionBanner?.[0];
@@ -181,7 +181,6 @@ export default function AddServices() {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    
     // console.log("Data",data);
     // return ;
     formData.append("midSection", JSON.stringify(data.midSection));
@@ -195,8 +194,7 @@ export default function AddServices() {
     formData.append("description", data?.description);
 
     data?.bottomSection?.features?.forEach((item) => {
-      if(typeof item?.icon != typeof "")
-      {
+      if (typeof item?.icon != typeof "") {
         formData.append(`bottomSectionFeaturesImages`, item?.icon?.[0]);
         delete item.icon;
       }
@@ -206,9 +204,10 @@ export default function AddServices() {
     formData.append("topSection", JSON.stringify(data.topSection));
     
 
-     formData.forEach((key,value)=>{
-      console.log(key,value);
-     })
+
+    formData.forEach((key, value) => {
+      console.log(key, value);
+    })
     setIsSubmitting(true);
     try {
       const response = await axios.patch(
@@ -287,7 +286,7 @@ export default function AddServices() {
             register={register}
             name="topSection.serviceIcon"
             errors={errors}
-            // required
+          // required
           />
           <FileInputField
             label="Banner Image"
@@ -295,7 +294,7 @@ export default function AddServices() {
             register={register}
             name="topSection.banner"
             errors={errors}
-            // required
+          // required
           />
           {previewUrl && (
             <div className="mt-2">
@@ -368,7 +367,7 @@ export default function AddServices() {
             register={register}
             name="midSection.stepsToAvailLoan.banner"
             errors={errors}
-            // required
+          // required
           />
           <DynamicFaqFields
             fields={fields3}
@@ -628,7 +627,6 @@ const DynamicFeatureFields = ({
                 type="text"
                 {...register(`${name}.${index}.heading`, {
                   required: "Heading is required",
-                 
                 })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -668,7 +666,7 @@ const DynamicFeatureFields = ({
                 onChange: (e) => {
                   if (e.target.files && e.target.files[0]) {
                     e.target.files[0]._id = field._id
-                    console.log("sdfdsfds",e.target.files[0])
+                    console.log("sdfdsfds", e.target.files[0])
                     // fields[index].icon = e.target.files[0];
                     // setFeatureImages((prev)=>{
                     //   const temp = [...prev];

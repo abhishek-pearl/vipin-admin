@@ -65,6 +65,7 @@ const UpdateAuction = () => {
         console.log(existingFile, "my exist file");
         reset({
           title: result?.title,
+          auctionId: result?.auctionId,
           category: { value: result?.category, label: result?.category },
           state: result?.state,
           city: result?.city,
@@ -129,30 +130,28 @@ const UpdateAuction = () => {
       formData.append("downloads", downloads[0]);
     }
 
-    formData.append("title", data.title);
-    formData.append("category", data.category.value);
-    formData.append("state", data.state);
-    formData.append("city", data.city);
-    formData.append("area", data.area);
-    formData.append("description", data.description);
-    formData.append("bankName", data.bankName);
-    formData.append("branch", data.branch);
-    formData.append("contact", data.contact);
-    formData.append("reservePrice", data.reservePrice);
-    formData.append("emd", data.emd);
-    formData.append("serviceProvider", data.serviceProvider);
-    formData.append("borrowerName", data.borrowerName);
-    formData.append("propertyType", data.propertyType);
-    formData.append("auctionType", data.auctionType);
-    formData.append("auctionStartDate", data.auctionStartDate);
-    formData.append("auctionStartTime", data.auctionStartTime);
-    formData.append("auctionEndDate", data.auctionEndDate);
+    formData.append("title", data?.title);
+    formData.append("auctionId", data?.auctionId);
+    formData.append("category", data?.category?.value);
+    formData.append("state", data?.state);
+    formData.append("city", data?.city);
+    formData.append("area", data?.area);
+    formData.append("description", data?.description);
+    formData.append("bankName", data?.bankName);
+    formData.append("branch", data?.branch);
+    formData.append("contact", data?.contact);
+    formData.append("reservePrice", data?.reservePrice || 0);
+    formData.append("emd", data?.emd || 0);
+    formData.append("serviceProvider", data?.serviceProvider);
+    formData.append("borrowerName", data?.borrowerName);
+    formData.append("propertyType", data?.propertyType);
+    formData.append("auctionType", data?.auctionType);
+    formData.append("auctionStartDate", data?.auctionStartDate);
+    formData.append("auctionStartTime", data?.auctionStartTime);
+    formData.append("auctionEndDate", data?.auctionEndDate);
+    formData.append("auctionEndTime", data?.auctionEndTime);
+    formData.append("applicationSubmissionDate", data?.applicationSubmissionDate);
 
-    formData.append("auctionEndTime", data.auctionEndTime);
-    formData.append(
-      "applicationSubmissionDate",
-      data.applicationSubmissionDate
-    );
 
     // api call here
     instance
@@ -218,6 +217,17 @@ const UpdateAuction = () => {
                 <span className="text-red-500">Review Title is required</span>
               )}
             </div>
+            <div>
+              <label className="font-medium">Auction Id</label>
+              <input
+                {...register("auctionId", { required: "Auction Id is required" })}
+                type="text"
+                className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+              />
+              {errors.auctionId && (
+                <span className="text-red-500">Auction Id required</span>
+              )}
+            </div>
 
             <div className="flex flex-col justify-center">
               <label className="font-medium mb-2">Category</label>
@@ -237,243 +247,181 @@ const UpdateAuction = () => {
             <div>
               <label className="font-medium">State</label>
               <input
-                {...register("state", { required: "state is required" })}
+                {...register("state")}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.state && (
-                <span className="text-red-500">state is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">City</label>
               <input
-                {...register("city", { required: "city is required" })}
+                {...register("city")}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.city && (
-                <span className="text-red-500">city is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Area</label>
               <input
-                {...register("area", { required: "Area is required" })}
+                {...register("area")}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.area && (
-                <span className="text-red-500">Area is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Description</label>
               <input
-                {...register("description", {
-                  required: "description is required",
-                })}
+                {...register("description")}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.description && (
-                <span className="text-red-500">description is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Bank Name</label>
               <input
-                {...register("bankName", { required: "Bank Name is required" })}
+                {...register("bankName",)}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.bankName && (
-                <span className="text-red-500">Bank Name is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Branch</label>
               <input
-                {...register("branch", { required: "branch is required" })}
+                {...register("branch")}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.branch && (
-                <span className="text-red-500">branch is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Contact</label>
               <input
-                {...register("contact", { required: "contact is required" })}
+                {...register("contact")}
                 type="number"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.contact && (
-                <span className="text-red-500">contact is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Reserve Price</label>
               <input
-                {...register("reservePrice", {
-                  required: "Reserve Price is required",
-                })}
+                {...register("reservePrice")}
                 type="number"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.reservePrice && (
-                <span className="text-red-500">Reserve Price is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">emd</label>
               <input
-                {...register("emd", { required: "emd is required" })}
+                {...register("emd")}
                 type="number"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.emd && (
-                <span className="text-red-500">emd is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Service Provider`</label>
               <input
-                {...register("serviceProvider", {
-                  required: "Service Provider is required",
-                })}
+                {...register("serviceProvider")}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.serviceProvider && (
-                <span className="text-red-500">
-                  Service Provider` is required
-                </span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Borrower Name</label>
               <input
-                {...register("borrowerName", {
-                  required: "Borrower Name is required",
-                })}
+                {...register("borrowerName")}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.borrowerName && (
-                <span className="text-red-500">Borrower Name is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Property Type</label>
               <input
-                {...register("propertyType", {
-                  required: "Property Type is required",
-                })}
+                {...register("propertyType")}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.propertyType && (
-                <span className="text-red-500">Property Type is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Auction Type</label>
               <input
-                {...register("auctionType", {
-                  required: "Auction Type is required",
-                })}
+                {...register("auctionType",)}
                 type="text"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.auctionType && (
-                <span className="text-red-500">Auction Type is required</span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Auction Start Date</label>
               <input
-                {...register("auctionStartDate", { required: true })}
+                {...register("auctionStartDate",)}
                 type="date"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.auctionStartDate && (
-                <span className="text-red-500">
-                  Auction Start Date is required
-                </span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Auction Start Time</label>
               <input
-                {...register("auctionStartTime", {
-                  required: "Auction Start Time is required",
-                })}
+                {...register("auctionStartTime",)}
                 type="time"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.auctionStartTime && (
-                <span className="text-red-500">
-                  Auction Start Time is required
-                </span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Auction End Date</label>
               <input
-                {...register("auctionEndDate", { required: true })}
+                {...register("auctionEndDate",)}
                 type="date"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.auctionEndDate && (
-                <span className="text-red-500">
-                  Auction End Date is required
-                </span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Auction End Time</label>
               <input
-                {...register("auctionEndTime", { required: true })}
+                {...register("auctionEndTime",)}
                 type="time"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.auctionEndTime && (
-                <span className="text-red-500">
-                  Auction End Time is required
-                </span>
-              )}
+
             </div>
 
             <div>
               <label className="font-medium">Application Submission Date</label>
               <input
-                {...register("applicationSubmissionDate", { required: true })}
+                {...register("applicationSubmissionDate",)}
                 type="date"
                 className="w-full mt-2 me-50 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
               />
-              {errors.applicationSubmissionDate && (
-                <span className="text-red-500">
-                  Application Submission Date is required
-                </span>
-              )}
+
             </div>
             <div className="relative w-full space-y-1">
               <label htmlFor="input" className="font-medium ">

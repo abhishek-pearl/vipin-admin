@@ -271,6 +271,14 @@ export default function AddServices() {
                             id="description"
                             {...register("topSection.description", {
                                 required: "Description is required",
+                                minLength: {
+                                    value: 10, // Minimum character length
+                                    message: "Description must be at least 10 characters long",
+                                },
+                                maxLength: {
+                                    value: 250, // Maximum character length
+                                    message: "Description cannot exceed 200 characters",
+                                },
                             })}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             rows="4"
@@ -408,6 +416,14 @@ export default function AddServices() {
                             type="text"
                             {...register("midSection.topContent.description", {
                                 required: "Description Title is required",
+                                minLength: {
+                                    value: 10, // Minimum character length
+                                    message: "Description must be at least 10 characters long",
+                                },
+                                maxLength: {
+                                    value: 200, // Maximum character length
+                                    message: "Description cannot exceed 250 characters",
+                                },
                             })}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             cols="30"
@@ -601,7 +617,17 @@ export default function AddServices() {
                                         type="text"
                                         {...register(
                                             `bottomSection.features.${index}.description`,
-                                            { required: "Description is required" }
+                                            {
+                                                required: "Description is required",
+                                                minLength: {
+                                                    value: 10, // Minimum character length
+                                                    message: "Description must be at least 10 characters long",
+                                                },
+                                                maxLength: {
+                                                    value: 250, // Maximum character length
+                                                    message: "Description cannot exceed 200 characters",
+                                                },
+                                            }
                                         )}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         cols="30"
