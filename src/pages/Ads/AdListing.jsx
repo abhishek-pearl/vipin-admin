@@ -5,6 +5,7 @@ import { toast } from "sonner"
 
 const TableRow = ({ item, handleDelete, handleEdit }) => {
     const [isPending, startTransition] = useTransition()
+    const navigate = useNavigate()
     return <tr>
         <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
             <p className="whitespace-no-wrap">3</p>
@@ -14,7 +15,7 @@ const TableRow = ({ item, handleDelete, handleEdit }) => {
                 {
                     item?.banner?.map(el => {
                         return <a href={el?.ad_url
-                            } className="h-20 w-20 flex-shrink-0 rounded border-2 p-1">
+                        } className="h-20 w-20 flex-shrink-0 rounded border-2 p-1">
                             <img
                                 className="h-full w-full "
                                 src={`${el?.secure_url}`}
@@ -45,6 +46,11 @@ const TableRow = ({ item, handleDelete, handleEdit }) => {
                         }} type="button">Active</button>
                     </span>
             }
+            <span className="rounded-full bg-blue-200 px-3 py-1 text-xs font-semibold text-blue-900">
+                {isPending ? "Editing..." : <button onClick={() => startTransition(() => {
+                    navigate('/updateAd', { state: item })
+                })} type="button">Edit</button>}
+            </span>
             <span className="rounded-full bg-red-200 px-3 py-1 text-xs font-semibold text-red-900">
                 {isPending ? "Deleting..." : <button onClick={() => startTransition(() => {
                     handleDelete(item?._id)

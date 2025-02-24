@@ -33,6 +33,7 @@ import AddAd from "./pages/Ads/AddAd";
 import UpdateAd from "./pages/Ads/UpdateAd";
 import UpdateNews from "./pages/News/UpdateNews";
 import ContactCRUD from "./pages/contact/Contact";
+import TaglineCRUD from "./pages/Tagline/Tagline";
 
 const App = () => {
   const { userData } = useAppStore();
@@ -119,6 +120,10 @@ const App = () => {
         {
           path: "/contact",
           element: <ContactCRUD />
+        },
+        {
+          path: "/tagline",
+          element: <TaglineCRUD />
         },
       ],
     },
