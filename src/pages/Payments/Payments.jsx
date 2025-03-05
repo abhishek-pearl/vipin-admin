@@ -27,7 +27,7 @@ const Payments = () => {
     getPaymentHistories();
   }, []);
 
- 
+
 
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,6 +71,7 @@ const Payments = () => {
                   <th scope="col" className="px-6 py-3">
                     Status
                   </th>
+
                   <th scope="col" className="px-6 py-3 mx-6">
                     Actions
                   </th>
@@ -94,13 +95,12 @@ const Payments = () => {
 
                     <td className="px-1 py-4  rounded-md">
                       <div
-                        className={`px-2 py-2 rounded-md text-center ${
-                          item.transactionStatus === "SUCCESS"
-                            ? "bg-green-400 text-white"
-                            : item.transactionStatus === "FAILED"
+                        className={`px-2 py-2 rounded-md text-center ${item.transactionStatus === "SUCCESS"
+                          ? "bg-green-400 text-white"
+                          : item.transactionStatus === "FAILED"
                             ? "bg-red-400 text-white"
                             : "bg-blue-400 text-white"
-                        }`}
+                          }`}
                       >
                         {item.transactionStatus}
                       </div>
@@ -160,6 +160,10 @@ const Payments = () => {
                           <p>
                             <strong>Budget:</strong> {selectedPayment.budget}{" "}
                             lakhs
+                          </p>
+                          <p>
+                            <strong>Date:</strong> {selectedPayment.createdAt}{" "}
+
                           </p>
                           <p>
                             <strong>Status:</strong>{" "}

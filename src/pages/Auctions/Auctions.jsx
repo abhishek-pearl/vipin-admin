@@ -11,7 +11,7 @@ const Auction = () => {
   const getAuctions = () => {
     setIsLoading(true);
     instance
-      .get(`/auction/properties`)
+      .get(`/auction/properties?admin=true`)
       .then((res) => {
         setAuctionsData(res?.data?.data);
         console.log(res);

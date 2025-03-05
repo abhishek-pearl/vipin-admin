@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { instance } from "../../services/axiosInterceptor";
+import { toast } from "sonner";
 
 export default function AddServices() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -202,7 +203,7 @@ export default function AddServices() {
 
     formData.append("bottomSection", JSON.stringify(data.bottomSection));
     formData.append("topSection", JSON.stringify(data.topSection));
-    
+
 
 
     formData.forEach((key, value) => {
@@ -222,7 +223,8 @@ export default function AddServices() {
       navigate("/services");
       console.log(response, "service data");
     } catch (error) {
-      console.error(error);
+      toast.error(error?.response?.data?.message || "Something went wrong!!")
+      console.log(error, "error");
     } finally {
       setIsSubmitting(false);
     }

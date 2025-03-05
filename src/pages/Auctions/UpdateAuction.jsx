@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import { useNavigate, useParams } from "react-router-dom";
 import { instance } from "../../services/axiosInterceptor";
 import { Toaster, toast } from "sonner";
 import { ClipLoader } from "react-spinners";
+import { State, City } from "country-state-city";
 
 const UpdateAuction = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +17,11 @@ const UpdateAuction = () => {
   });
   const [existingBanner, setExistingBanner] = useState(null);
   const [existingFile, setExistingFile] = useState(null);
+
+  const [stateLists, setStateLists] = useState([]);
+  const [cityList, setCityLists] = useState([]);
+  const stateRef = useRef()
+  const cityRef = useRef()
 
   const navigate = useNavigate()
 
@@ -106,6 +112,33 @@ const UpdateAuction = () => {
   useEffect(() => {
     getAuction();
   }, []);
+
+  // This block of code is used to set Indian states dropdown Values.
+  useEffect(() => {
+    const states = State.getStatesOfCountry("IN");
+    if (states?.length > 0) {
+      setStateLists(
+        states.map((state) => {
+          return {
+            label: state?.name,
+            value: state?.isoCode,
+          };
+        })
+      );
+    }
+  }, []);
+
+  const fetchCitiesList = (state) => {
+    const citiesList = City.getCitiesOfState("IN", state?.value);
+    setCityLists(
+      citiesList.map((city) => {
+        return {
+          label: city?.name,
+          value: city?.name,
+        };
+      })
+    );
+  };
 
   const categories = [
     { value: "Commercial", label: "Commercial" },

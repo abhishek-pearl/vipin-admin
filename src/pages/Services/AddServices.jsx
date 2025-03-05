@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function AddServices() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -175,6 +176,7 @@ export default function AddServices() {
             console.log(data, "service data");
         } catch (error) {
             setIsSubmitting(false);
+            toast.error(error?.response?.data?.message || "Something went wrong!!")
             console.log(error, "error");
         } finally {
             setIsSubmitting(false);
@@ -271,14 +273,14 @@ export default function AddServices() {
                             id="description"
                             {...register("topSection.description", {
                                 required: "Description is required",
-                                minLength: {
-                                    value: 10, // Minimum character length
-                                    message: "Description must be at least 10 characters long",
-                                },
-                                maxLength: {
-                                    value: 250, // Maximum character length
-                                    message: "Description cannot exceed 200 characters",
-                                },
+                                // minLength: {
+                                //     value: 10, // Minimum character length
+                                //     message: "Description must be at least 10 characters long",
+                                // },
+                                // maxLength: {
+                                //     value: 250, // Maximum character length
+                                //     message: "Description cannot exceed 200 characters",
+                                // },
                             })}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             rows="4"
@@ -416,14 +418,14 @@ export default function AddServices() {
                             type="text"
                             {...register("midSection.topContent.description", {
                                 required: "Description Title is required",
-                                minLength: {
-                                    value: 10, // Minimum character length
-                                    message: "Description must be at least 10 characters long",
-                                },
-                                maxLength: {
-                                    value: 200, // Maximum character length
-                                    message: "Description cannot exceed 250 characters",
-                                },
+                                // minLength: {
+                                //     value: 10, // Minimum character length
+                                //     message: "Description must be at least 10 characters long",
+                                // },
+                                // maxLength: {
+                                //     value: 200, // Maximum character length
+                                //     message: "Description cannot exceed 250 characters",
+                                // },
                             })}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             cols="30"
@@ -619,14 +621,14 @@ export default function AddServices() {
                                             `bottomSection.features.${index}.description`,
                                             {
                                                 required: "Description is required",
-                                                minLength: {
-                                                    value: 10, // Minimum character length
-                                                    message: "Description must be at least 10 characters long",
-                                                },
-                                                maxLength: {
-                                                    value: 250, // Maximum character length
-                                                    message: "Description cannot exceed 200 characters",
-                                                },
+                                                // minLength: {
+                                                //     value: 10, // Minimum character length
+                                                //     message: "Description must be at least 10 characters long",
+                                                // },
+                                                // maxLength: {
+                                                //     value: 250, // Maximum character length
+                                                //     message: "Description cannot exceed 200 characters",
+                                                // },
                                             }
                                         )}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

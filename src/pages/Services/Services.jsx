@@ -9,27 +9,28 @@ export default function Services() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true); // Show loading indicator
-      try {
-        const { data } = await instance.get(
-          `${import.meta.env.VITE_API_URL}/services`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+  const fetchData = async () => {
+    setIsLoading(true); // Show loading indicator
+    try {
+      const { data } = await instance.get(
+        `${import.meta.env.VITE_API_URL}/services`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-        console.log("Fetched Services", data);
-        setServices(data); // Save fetched data
-      } catch (err) {
-        setError(err); // Handle errors
-      } finally {
-        setIsLoading(false); // Hide loading indicator
-      }
-    };
+      console.log("Fetched Services", data);
+      setServices(data); // Save fetched data
+    } catch (err) {
+      setError(err); // Handle errors
+    } finally {
+      setIsLoading(false); // Hide loading indicator
+    }
+  };
+  useEffect(() => {
+
 
     fetchData();
   }, []); // Empty dependency array ensures it runs only once on mount
@@ -52,19 +53,7 @@ export default function Services() {
           "Content-Type": "application/json",
         },
       });
-      setServices((prevServices) => {
-        if (!Array.isArray(prevServices.data)) {
-          console.error(
-            "Expected services to be an array, but got:",
-            prevServices
-          );
-          return []; // Return empty array as fallback
-        }
-
-        return prevServices?.data?.filter(
-          (service) => service._id !== id.toString()
-        );
-      }); // Update state
+      fetchData();
       alert("Service deleted successfully!");
     } catch (err) {
       setError(err);
